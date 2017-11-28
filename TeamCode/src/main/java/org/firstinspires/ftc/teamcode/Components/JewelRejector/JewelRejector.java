@@ -9,6 +9,8 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
 /**
  * Created by spmce on 11/18/2017.
+ *
+ * Jewel Rejector Component
  */
 public class JewelRejector extends ComponentHardware {
     // ------------------------- Constants --------------------------

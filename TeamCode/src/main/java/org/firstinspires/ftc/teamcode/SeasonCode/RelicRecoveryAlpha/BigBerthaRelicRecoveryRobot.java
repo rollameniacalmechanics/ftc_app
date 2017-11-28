@@ -14,6 +14,7 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
  * Created by Shane on 26-11-2017.
  */
 public class BigBerthaRelicRecoveryRobot extends Robot {
+    // ----------------------- Robot Objects ------------------------
     GlyphGrabberHardware glyphGrabber;
     RelicRetrieverHardware relicRetriever;
     JewelRejector jewelRejector;
