@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Components.DriveTrain.TwoMotor;
 import org.firstinspires.ftc.teamcode.Utilities.ReadColor;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 import org.firstinspires.ftc.teamcode.Utilities.UseIMU;
@@ -55,7 +54,7 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
         robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         useVuforia = new UseVuforia(hardwareMap,telemetry);
-        readColor = new ReadColor(robot.sColor);
+        readColor = new ReadColor(robot.jewelRejector.sColor);
         setRobot = new SetRobot(telemetry);
         useIMU = new UseIMU(hardwareMap,telemetry);
 
@@ -86,7 +85,7 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
         useIMU.run();
         switch(_state) {
             case READING_VALUES:
-                robot.ballPusherPosition = BALL_PUSHER_DOWN;
+                robot.jewelRejector.ballPusherPosition = BALL_PUSHER_DOWN;
                 if(useVuforia.run() && readColor.readColor()) {
                     _state = States.HIT_JEWEL;
                 }
@@ -94,9 +93,9 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
             case HIT_JEWEL:
                 jewelColor = readColor.getColorDetected();
                 if (jewelColor == ReadColor.Color.RED) {
-                    robot.ballRotatorPosition = BALL_ROTATOR_RIGHT;
+                    robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_RIGHT;
                 } else if (jewelColor == ReadColor.Color.BLUE) {
-                    robot.ballRotatorPosition = BALL_ROTATOR_LEFT;
+                    robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_LEFT;
                 } else {
                     telemetry.addData("Color", "neither, you messed up");
                 }
@@ -108,8 +107,8 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
                 _state = States.MOVE_OFF_PLATE;
                 break;
             case MOVE_OFF_PLATE:
-                robot.ballPusherPosition = BALL_PUSHER_UP;
-                robot.ballRotatorPosition = BALL_ROTATOR_CENTER;
+                robot.jewelRejector.ballPusherPosition = BALL_PUSHER_UP;
+                robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_CENTER;
                 robot.driveTrain.leftPower = 1;
                 robot.driveTrain.rightPower = 1;
                 if (robot.driveTrain.mRight.getCurrentPosition() > 24*COUNTS_PER_INCH) {
@@ -156,12 +155,12 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
         }
 
         telemetry.addData("State",_state);
-        telemetry.addData("blue",robot.sColor.blue());
-        telemetry.addData("red",robot.sColor.red());
+        telemetry.addData("blue",robot.jewelRejector.sColor.blue());
+        telemetry.addData("red",robot.jewelRejector.sColor.red());
         telemetry.addData("right encoder",robot.driveTrain.mRight.getCurrentPosition());
         telemetry.addData("left encoder",robot.driveTrain.mLeft.getCurrentPosition());
-        telemetry.addData("arm lift encoder",robot.mArmLift.getCurrentPosition());
-        telemetry.addData("lift encoder",robot.gliphGrabber.mLift.getCurrentPosition());
+        telemetry.addData("arm lift encoder",robot.relicRetriever.mArmLift.getCurrentPosition());
+        telemetry.addData("lift encoder",robot.glyphGrabber.mLift.getCurrentPosition());
     }
 
 }

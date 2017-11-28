@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Metheds.DriveTrainMethods;
+package org.firstinspires.ftc.teamcode.Methods.DriveTrainMethods;
 
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.GyroSensor;

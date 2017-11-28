@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Components.GliphGrabber;
+package org.firstinspires.ftc.teamcode.Components.GlyphGrabber;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,12 +12,16 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
  * Abstract class for drive train Hardware
  * Contains left and right motors and variables
  */
-public abstract class GliphGrabberHardware implements GliphGrabber {
+public abstract class GlyphGrabberHardware implements GlyphGrabber {
     // ---------------------- Hardware Objects ----------------------
-
-    Map map;
-
-    SetRobot setRobot;
+    /**
+     * object used to map hardware
+     */
+    protected Map map;
+    /**
+     * object used to set Glyph Grabber power
+     */
+    protected SetRobot setRobot;
     // ---------------------- Hardware Devices ----------------------
     /**
      *
@@ -44,18 +48,16 @@ public abstract class GliphGrabberHardware implements GliphGrabber {
     public double crHandPosition;
 
     // ------------------------ Constructor -------------------------
-
     /**
-     * constructer / inti objects to null and varibles to 0
+     * constructor / inti objects to null and variables to 0
      */
-    GliphGrabberHardware() {
+    GlyphGrabberHardware() {
         map         = null;
         setRobot    = null;
         mLift       = null;
         crHand      = null;
         liftPower   = 0;
         crHandPosition = HAND_STOPPED;
-
     }
 }
 /**

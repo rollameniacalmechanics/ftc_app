@@ -1,24 +1,16 @@
-package org.firstinspires.ftc.teamcode.Components.GliphGrabber;
+package org.firstinspires.ftc.teamcode.Components.GlyphGrabber;
 
-import org.firstinspires.ftc.teamcode.Components.DriveTrain.SwerveMotor;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
 /**
  * Created by Tyler on 11/27/17.
+ *
+ * (description here)
  */
 
-public class Grabber extends GliphGrabberHardware {
+public class Grabber extends GlyphGrabberHardware {
     // ------------------------ Constructor -------------------------
-    /**
-     * object used to map hardware
-     */
-    Map map;
-    /**
-     * object used to set Gliph Grabber power
-     */
-    SetRobot setRobot;
-
     /**
      * Constructs a one motor and one servo
      *
@@ -37,7 +29,6 @@ public class Grabber extends GliphGrabberHardware {
     public void initHardware() {
         mLift  = map.motor("lift");
         crHand = map.revCrservo("crHand");
-
     }
     // --------------------- Set Hardware Power ---------------------
     /**
@@ -47,9 +38,10 @@ public class Grabber extends GliphGrabberHardware {
     public void runHardware() {
         setRobot.power(mLift,liftPower,"lift motor");
         setRobot.position(crHand,crHandPosition,"hand crservo");
-
     }
 }
 /**
  *Tyler rocks
+ *
+ * I agree
  */

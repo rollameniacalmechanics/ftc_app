@@ -19,11 +19,11 @@ public abstract class RelicRetrieverHardware implements RelicRetriever {
     /**
      * object used to map hardware
      */
-    Map map;
+    protected Map map;
     /**
      * object used to set drive train power
      */
-    SetRobot setRobot;
+    protected SetRobot setRobot;
     // ---------------------- Hardware Devices ----------------------
     /**
      * Lift arm motor

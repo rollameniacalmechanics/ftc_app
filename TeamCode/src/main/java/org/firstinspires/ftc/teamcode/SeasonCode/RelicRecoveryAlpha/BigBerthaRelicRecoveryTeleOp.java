@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode.SeasonCode.RelicRecoveryAlpha;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.Metheds.DriveTrainMethods.TankDriveMethods;
-import org.firstinspires.ftc.teamcode.Metheds.DriveTrainMethods.TurnDriveMethods;
+import org.firstinspires.ftc.teamcode.Methods.DriveTrainMethods.TankDriveMethods;
+import org.firstinspires.ftc.teamcode.Methods.DriveTrainMethods.TurnDriveMethods;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -67,15 +67,15 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
             ifHold = true;
         } else if (gamepad1.dpad_left || gamepad2.dpad_left) {
             ifHold = false;
-            robot.crHandPosition = HAND_OPEN;
+            robot.glyphGrabber.crHandPosition = HAND_OPEN;
         }
         if (ifHold) {
-            robot.crHandPosition = HAND_CLOSED;
+            robot.glyphGrabber.crHandPosition = HAND_CLOSED;
         } else {
             if (gamepad1.dpad_left || gamepad2.dpad_left) {
-                robot.crHandPosition = HAND_OPEN;
+                robot.glyphGrabber.crHandPosition = HAND_OPEN;
             } else {
-                robot.crHandPosition = HAND_STOPPED;
+                robot.glyphGrabber.crHandPosition = HAND_STOPPED;
             }
 
         }
@@ -115,15 +115,15 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
                 drivePower = tank.drive(gamepad1);
                 driveMode = "Tank Drive";
             }
-            robot.liftPower = 0;
+            robot.glyphGrabber.liftPower = 0;
         } else { // for gamepad 1 controls override
             // ---- relic override ----
             if (gamepad1.y) {
                 if (y1) {
-                    if (robot.grabberPosition == GRABBER_OPEN) {
-                        robot.grabberPosition = GRABBER_CLOSED;
+                    if (robot.relicRetriever.grabberPosition == GRABBER_OPEN) {
+                        robot.relicRetriever.grabberPosition = GRABBER_CLOSED;
                     } else {
-                        robot.grabberPosition = GRABBER_OPEN;
+                        robot.relicRetriever.grabberPosition = GRABBER_OPEN;
                     }
                     y1 = false;
                 } else {
@@ -132,19 +132,19 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
             }
             // ---- lift override -----
             if (gamepad1.dpad_up) {
-                robot.liftPower = 1;
+                robot.glyphGrabber.liftPower = 1;
             } else if (gamepad1.dpad_down) {
-                robot.liftPower = -1;
+                robot.glyphGrabber.liftPower = -1;
             } else {
-                robot.liftPower = 0;
+                robot.glyphGrabber.liftPower = 0;
             }
             // ----- arm override -----
             if (gamepad1.right_bumper) {
-                robot.armPosition += .02;
+                robot.relicRetriever.armPosition += .02;
             } else if (gamepad1.left_bumper) {
-                robot.armPosition -=.02;
+                robot.relicRetriever.armPosition -=.02;
             }
-            robot.armLiftPower = gamepad1.right_trigger - gamepad1.left_trigger;
+            robot.relicRetriever.armLiftPower = gamepad1.right_trigger - gamepad1.left_trigger;
         }
         //robot.rightPower = drivePower[0];
         //robot.leftPower = drivePower[1];
@@ -175,26 +175,26 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
                 isPad1XPressed = false;
             }
             if (isPad1XReleased) {
-                if (robot.ballPusherPosition == BALL_PUSHER_UP) {
-                    robot.ballPusherPosition = BALL_PUSHER_DOWN;
+                if (robot.jewelRejector.ballPusherPosition == BALL_PUSHER_UP) {
+                    robot.jewelRejector.ballPusherPosition = BALL_PUSHER_DOWN;
                 } else {
-                    robot.ballPusherPosition = BALL_PUSHER_UP;
+                    robot.jewelRejector.ballPusherPosition = BALL_PUSHER_UP;
                 }
             }
         }
 
         if (gamepad1.b) {
-            robot.ballRotatorPosition = BALL_ROTATOR_RIGHT;
+            robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_RIGHT;
         } else if (gamepad1.a) {
-            robot.ballRotatorPosition = BALL_ROTATOR_LEFT;
+            robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_LEFT;
         } else {
-            robot.ballRotatorPosition = BALL_ROTATOR_CENTER;
+            robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_CENTER;
         }
     }
     // ---------------------- Pad 2 -----------------------
     private void gamepad2Controls() {
         // ---------------- Lift ----------------
-        robot.liftPower -= gamepad2.right_stick_y;
+        robot.glyphGrabber.liftPower -= gamepad2.right_stick_y;
         // -------------- Grabber ---------------
 
         if (gamepad2.y) {
@@ -207,22 +207,22 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
                 isPad2YPressed = false;
             }
             if (isPad2YReleased) {
-                if (robot.grabberPosition == HAND_OPEN) {
-                    robot.grabberPosition = HAND_CLOSED;
+                if (robot.relicRetriever.grabberPosition == HAND_OPEN) {
+                    robot.relicRetriever.grabberPosition = HAND_CLOSED;
                 } else {
-                    robot.grabberPosition = HAND_OPEN;
+                    robot.relicRetriever.grabberPosition = HAND_OPEN;
                 }
             }
         }
         // ---------------- Arm -----------------
         if (gamepad2.right_bumper) {
-            robot.armPosition += .0008;
+            robot.relicRetriever.armPosition += .0008;
         } else if (gamepad2.left_bumper) {
-            robot.armPosition -=.0008;
-            if (robot.armPosition < 0)
-                robot.armPosition = 0;
+            robot.relicRetriever.armPosition -=.0008;
+            if (robot.relicRetriever.armPosition < 0)
+                robot.relicRetriever.armPosition = 0;
         }
-        robot.armLiftPower = gamepad2.right_trigger - gamepad2.left_trigger;
+        robot.relicRetriever.armLiftPower = gamepad2.right_trigger - gamepad2.left_trigger;
     }
 
     private void tele() {

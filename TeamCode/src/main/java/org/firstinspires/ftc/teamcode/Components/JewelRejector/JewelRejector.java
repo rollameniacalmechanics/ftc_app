@@ -1,32 +1,52 @@
 package org.firstinspires.ftc.teamcode.Components.JewelRejector;
 
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.teamcode.Components.ComponentHardware;
+import org.firstinspires.ftc.teamcode.Utilities.Map;
+import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
 /**
  * Created by spmce on 11/18/2017.
  */
-public class JewelRejector {
+public class JewelRejector extends ComponentHardware {
     // ------------------------- Constants --------------------------
-    private static final double BALL_PUSHER_UP = .5;
-    private static final double BALL_PUSHER_DOWN = 1;
-    private static final double BALL_ROTATER_CENTER = .5;
-    private static final double BALL_ROTATOR_RIGHT = .7;
-    private static final double BALL_ROTATOR_LEFT = .3;
-    // ---------------------- Hardware Devices ----------------------
+    public static final double BALL_PUSHER_UP = .5;
+    public static final double BALL_PUSHER_DOWN = 1;
+    public static final double BALL_ROTATER_CENTER = .5;
+    public static final double BALL_ROTATOR_RIGHT = .7;
+    public static final double BALL_ROTATOR_LEFT = .3;
     // ------------ Standard Servos -------------
-    Servo ssBallPusher;
-    Servo ssBallRotator;
+    public Servo ssBallPusher;
+    public Servo ssBallRotator;
+    // ---------------- Sensors -----------------
+    public ColorSensor sColor;
 
-    private double ballPusherPosition;
-    private double ballRotatorPosition;
+    public double ballPusherPosition;
+    public double ballRotatorPosition;
 
-    public JewelRejector() {
-         ballPusherPosition = BALL_PUSHER_UP;
-         ballRotatorPosition = BALL_ROTATER_CENTER;
+    public JewelRejector(Map map, SetRobot setRobot) {
+        super();
+        this.map = map;
+        this.setRobot = setRobot;
+        ssBallPusher = null;
+        ssBallRotator = null;
+        sColor = null;
+        ballPusherPosition = BALL_PUSHER_UP;
+        ballRotatorPosition = BALL_ROTATER_CENTER;
     }
 
-    public void runJewel() {
-
+    @Override
+    public void initHardware() {
+        ssBallPusher  = map.servo("sBall",ballPusherPosition);
+        ssBallRotator = map.servo("sBallRotator",ballRotatorPosition);
+        sColor = map.colorSensor("cd");
     }
 
+    @Override
+    public void runHardware() {
+        setRobot.position(ssBallPusher,ballPusherPosition,"ball pusher servo");
+        setRobot.position(ssBallRotator,ballRotatorPosition,"ball rotator servo");
+    }
 }

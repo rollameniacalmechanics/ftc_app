@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.SeasonCode.VelocityVortex;
 
-import org.firstinspires.ftc.teamcode.Metheds.DriveTrainMethods.OmniWheelDriveMethods;
+import org.firstinspires.ftc.teamcode.Methods.DriveTrainMethods.OmniWheelDriveMethods;
 
 /**
  * Created by spmce on 12/10/2016.

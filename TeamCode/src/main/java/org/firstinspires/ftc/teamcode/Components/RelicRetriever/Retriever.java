@@ -9,14 +9,6 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
 public class Retriever extends RelicRetrieverHardware {
     /**
-     * Hardware map object
-     */
-    Map map;
-    /**
-     * Hardwaremap object
-     */
-    SetRobot setRobot;
-    /**
      * Constructor with hardwaremap and position/power
      *
      * @param map Used to map the objects

@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode.SeasonCode.RelicRecoveryAlpha;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import org.firstinspires.ftc.teamcode.Components.DriveTrain.DriveTrainHardware;
-import org.firstinspires.ftc.teamcode.Components.DriveTrain.TwoMotor;
+import org.firstinspires.ftc.teamcode.Components.DriveTrainPackage.DriveTrainHardware;
+import org.firstinspires.ftc.teamcode.Components.DriveTrainPackage.TwoMotor;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
@@ -26,25 +26,15 @@ public abstract class Robot {
     // ----------------------- Init -----------------------
     public void init() {
         driveTrain.initHardware();
-        mapMotors();
-        mapServos();
-        mapCRServos();
-        mapSensors();
+        mapHardware();
     }
     public void setHardwarePower() {
         driveTrain.runHardware();
-        setMotorPowers();
-        setServoPositions();
-        setCRServoPowers();
+        setHardwarePowers();
     }
     // ---------------------- Abstract Methods ----------------------
     // --------------------- Mapping ----------------------
-    abstract void mapMotors();
-    abstract void mapServos();
-    abstract void mapCRServos();
-    abstract void mapSensors();
+    abstract void mapHardware();
     // ---------------- Set Hardware Power ----------------
-    abstract void setMotorPowers();
-    abstract void setServoPositions();
-    abstract void setCRServoPowers();
+    abstract void setHardwarePowers();
 }

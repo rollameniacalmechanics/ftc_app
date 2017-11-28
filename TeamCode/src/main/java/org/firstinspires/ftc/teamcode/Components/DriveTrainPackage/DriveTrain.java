@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.Components.DriveTrain;
+package org.firstinspires.ftc.teamcode.Components.DriveTrainPackage;
 
 /**
  * Created by spmce on 11/26/2017.
@@ -8,12 +8,12 @@ package org.firstinspires.ftc.teamcode.Components.DriveTrain;
 public interface DriveTrain {
 
     /**
-     * Maps DriveTrain to Phones
+     * Maps Component to Phones
      */
     void initHardware();
 
     /**
-     * Set Power to DriveTrain
+     * Set Power to Component
      */
     void runHardware();
 }
