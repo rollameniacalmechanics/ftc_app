@@ -39,7 +39,12 @@ public abstract class DriveTrainHardware implements DriveTrain {
      * this variable is used to set power the right motor
      */
     public double rightPower;
+
+
     // ------------------------ Constructor -------------------------
+    /**
+     * constructer / inti objects to null and varibles to 0
+     */
     DriveTrainHardware() {
         map      = null;
         setRobot = null;

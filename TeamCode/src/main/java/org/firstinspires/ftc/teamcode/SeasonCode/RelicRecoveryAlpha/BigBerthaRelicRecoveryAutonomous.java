@@ -161,7 +161,7 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
         telemetry.addData("right encoder",robot.driveTrain.mRight.getCurrentPosition());
         telemetry.addData("left encoder",robot.driveTrain.mLeft.getCurrentPosition());
         telemetry.addData("arm lift encoder",robot.mArmLift.getCurrentPosition());
-        telemetry.addData("lift encoder",robot.mLift.getCurrentPosition());
+        telemetry.addData("lift encoder",robot.gliphGrabber.mLift.getCurrentPosition());
     }
 
 }

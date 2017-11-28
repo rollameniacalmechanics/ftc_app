@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Components.GliphGrabber.GliphGrabber;
+import org.firstinspires.ftc.teamcode.Components.GliphGrabber.GliphGrabberHardware;
+import org.firstinspires.ftc.teamcode.Components.GliphGrabber.Grabber;
 
 import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.ARM_IN;
 import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.BALL_PUSHER_UP;
@@ -18,9 +21,10 @@ import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.HAND_STOPP
  * Created by Shane on 26-11-2017.
  */
 public class BigBerthaRelicRecoveryRobot extends Robot {
+    GliphGrabberHardware gliphGrabber;
     // ---------------------- Hardware Devices ----------------------
     // ---------------- DcMotors ----------------
-    protected DcMotor mLift        = null;
+    //protected DcMotor mLift        = null;
     protected DcMotor mArmLift     = null;
     // ------------ Standard Servos -------------
     private Servo ssArm          = null;
@@ -28,12 +32,12 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     private Servo ssBallPusher   = null;
     private Servo ssBallRotator  = null;
     // ------- Continuous Rotation Servos -------
-    private CRServo crHand       = null;
+    //private CRServo crHand       = null;
     // ---------------- Sensors -----------------
     public ColorSensor sColor;
     // --------------------- Hardware Variables ---------------------
     // ---------------- DcMotors ----------------
-    public double liftPower;
+    //public double liftPower;
     public double armLiftPower;
     // ------------ Standard Servos -------------
     public double armPosition;
@@ -41,22 +45,24 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     public double ballPusherPosition;
     public double ballRotatorPosition;
     // ------- Continuous Rotation Servos -------
-    public double crHandPosition;
+    //public double crHandPosition;
     // ------------------------ Constructor -------------------------
     BigBerthaRelicRecoveryRobot(HardwareMap hardwareMap, Telemetry telemetry) {
         super(hardwareMap,telemetry);
-        liftPower           = 0;
+        gliphGrabber = new Grabber(map,setRobot);
+        //liftPower           = 0;
         armLiftPower        = 0;
         armPosition         = ARM_IN;
         grabberPosition     = GRABBER_CLOSED;
         ballPusherPosition  = BALL_PUSHER_UP;
         ballRotatorPosition = BALL_ROTATOR_CENTER;
-        crHandPosition      = HAND_STOPPED;
+        //crHandPosition      = HAND_STOPPED;
     }
     // -------------------------- Mapping ---------------------------
     void mapMotors() {
         // -------------- DcMotors --------------
-        mLift          = map.motor("lift");
+        gliphGrabber.initHardware();
+        //mLift          = map.motor("lift");
         mArmLift       = map.motor("armLift");
     }
     void mapServos() {
@@ -68,7 +74,7 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     }
     void mapCRServos() {
         // ----- Continuous Rotation Servos -----
-        crHand         = map.revCrservo("crHand");
+        //crHand         = map.revCrservo("crHand");
     }
     void mapSensors() {
         // -------------- Sensors ---------------
@@ -76,8 +82,9 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     }
     // --------------------- Set Hardware Power ---------------------
     void setMotorPowers() {
+        gliphGrabber.runHardware();
         // -------------- DcMotors --------------
-        setRobot.power(mLift,liftPower,"lift motor");
+        //setRobot.power(mLift,liftPower,"lift motor");
         setRobot.power(mArmLift,armLiftPower,"arm lift motor");
     }
     void setServoPositions() {
@@ -89,6 +96,6 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     }
     void setCRServoPowers() {
         // ----- Continuous Rotation Servos -----
-        setRobot.position(crHand,crHandPosition,"hand crservo");
+        //setRobot.position(crHand,crHandPosition,"hand crservo");
     }
 }
