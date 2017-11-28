@@ -7,15 +7,10 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-<<<<<<< HEAD
-import org.firstinspires.ftc.teamcode.Components.GliphGrabber.GliphGrabber;
 import org.firstinspires.ftc.teamcode.Components.GliphGrabber.GliphGrabberHardware;
 import org.firstinspires.ftc.teamcode.Components.GliphGrabber.Grabber;
-=======
-import org.firstinspires.ftc.teamcode.Components.RelicRetriever.RelicRetriever;
 import org.firstinspires.ftc.teamcode.Components.RelicRetriever.RelicRetrieverHardware;
 import org.firstinspires.ftc.teamcode.Components.RelicRetriever.Retriever;
->>>>>>> origin/master
 
 import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.ARM_IN;
 import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.BALL_PUSHER_UP;
@@ -27,19 +22,12 @@ import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.HAND_STOPP
  * Created by Shane on 26-11-2017.
  */
 public class BigBerthaRelicRecoveryRobot extends Robot {
-<<<<<<< HEAD
     GliphGrabberHardware gliphGrabber;
-    // ---------------------- Hardware Devices ----------------------
-    // ---------------- DcMotors ----------------
-    //protected DcMotor mLift        = null;
-    protected DcMotor mArmLift     = null;
-=======
     RelicRetrieverHardware relicRetriever;
     // ---------------------- Hardware Devices ----------------------
     // ---------------- DcMotors ----------------
-    protected DcMotor mLift        = null;
+    //protected DcMotor mLift        = null;
     //protected DcMotor mArmLift     = null;
->>>>>>> origin/master
     // ------------ Standard Servos -------------
     //private Servo ssArm          = null;
     //private Servo ssRelicGrabber = null;
@@ -51,13 +39,8 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     public ColorSensor sColor;
     // --------------------- Hardware Variables ---------------------
     // ---------------- DcMotors ----------------
-<<<<<<< HEAD
     //public double liftPower;
-    public double armLiftPower;
-=======
-    public double liftPower;
     //public double armLiftPower;
->>>>>>> origin/master
     // ------------ Standard Servos -------------
     //public double armPosition;
     //public double grabberPosition;
@@ -68,19 +51,12 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     // ------------------------ Constructor -------------------------
     BigBerthaRelicRecoveryRobot(HardwareMap hardwareMap, Telemetry telemetry) {
         super(hardwareMap,telemetry);
-<<<<<<< HEAD
         gliphGrabber = new Grabber(map,setRobot);
-        //liftPower           = 0;
-        armLiftPower        = 0;
-        armPosition         = ARM_IN;
-        grabberPosition     = GRABBER_CLOSED;
-=======
         relicRetriever = new Retriever(map, setRobot);
-        liftPower           = 0;
+        //liftPower           = 0;
         //armLiftPower        = 0;
         //armPosition         = ARM_IN;
         //grabberPosition     = GRABBER_CLOSED;
->>>>>>> origin/master
         ballPusherPosition  = BALL_PUSHER_UP;
         ballRotatorPosition = BALL_ROTATOR_CENTER;
         //crHandPosition      = HAND_STOPPED;
@@ -88,15 +64,10 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     // -------------------------- Mapping ---------------------------
     void mapMotors() {
         relicRetriever.initHardware();
-        // -------------- DcMotors --------------
-<<<<<<< HEAD
         gliphGrabber.initHardware();
+        // -------------- DcMotors --------------
         //mLift          = map.motor("lift");
-        mArmLift       = map.motor("armLift");
-=======
-        mLift          = map.motor("lift");
         //mArmLift       = map.motor("armLift");
->>>>>>> origin/master
     }
     void mapServos() {
         // ---------- Standard Servos -----------
@@ -115,17 +86,11 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
     }
     // --------------------- Set Hardware Power ---------------------
     void setMotorPowers() {
-<<<<<<< HEAD
         gliphGrabber.runHardware();
-        // -------------- DcMotors --------------
-        //setRobot.power(mLift,liftPower,"lift motor");
-        setRobot.power(mArmLift,armLiftPower,"arm lift motor");
-=======
         relicRetriever.runHardware();
         // -------------- DcMotors --------------
-        setRobot.power(mLift,liftPower,"lift motor");
+        //setRobot.power(mLift,liftPower,"lift motor");
         //setRobot.power(mArmLift,armLiftPower,"arm lift motor");
->>>>>>> origin/master
     }
     void setServoPositions() {
         // ---------- Standard Servos -----------
