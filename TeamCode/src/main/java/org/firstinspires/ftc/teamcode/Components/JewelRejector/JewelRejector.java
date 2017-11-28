@@ -14,7 +14,7 @@ public class JewelRejector extends ComponentHardware {
     // ------------------------- Constants --------------------------
     public static final double BALL_PUSHER_UP = .5;
     public static final double BALL_PUSHER_DOWN = 1;
-    public static final double BALL_ROTATER_CENTER = .5;
+    public static final double BALL_ROTATOR_CENTER = .5;
     public static final double BALL_ROTATOR_RIGHT = .7;
     public static final double BALL_ROTATOR_LEFT = .3;
     // ------------ Standard Servos -------------
@@ -34,7 +34,7 @@ public class JewelRejector extends ComponentHardware {
         ssBallRotator = null;
         sColor = null;
         ballPusherPosition = BALL_PUSHER_UP;
-        ballRotatorPosition = BALL_ROTATER_CENTER;
+        ballRotatorPosition = BALL_ROTATOR_CENTER;
     }
 
     @Override

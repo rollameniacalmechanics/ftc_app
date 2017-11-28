@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.Components.GlyphGrabber.Grabber;
 import org.firstinspires.ftc.teamcode.Components.JewelRejector.JewelRejector;
 import org.firstinspires.ftc.teamcode.Components.RelicRetriever.RelicRetrieverHardware;
 import org.firstinspires.ftc.teamcode.Components.RelicRetriever.Retriever;
+import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 /**
  * Created by Shane on 26-11-2017.
@@ -24,13 +25,13 @@ public class BigBerthaRelicRecoveryRobot extends Robot {
         jewelRejector = new JewelRejector(map,setRobot);
     }
     // -------------------------- Mapping ---------------------------
-    void mapHardware() {
+    public void mapHardware() {
         relicRetriever.initHardware();
         glyphGrabber.initHardware();
         jewelRejector.initHardware();
     }
     // --------------------- Set Hardware Power ---------------------
-    void setHardwarePowers() {
+    public void setHardwarePowers() {
         glyphGrabber.runHardware();
         relicRetriever.runHardware();
         jewelRejector.runHardware();

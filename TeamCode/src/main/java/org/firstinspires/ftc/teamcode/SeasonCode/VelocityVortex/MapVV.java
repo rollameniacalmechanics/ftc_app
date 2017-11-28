@@ -19,7 +19,7 @@ import com.qualcomm.robotcore.hardware.UltrasonicSensor;
 /**
  * Created by spmce on 11/4/2016.
  */
-public class Map extends VelocityVortexHardware {
+public class MapVV extends VelocityVortexHardware {
     // Warning
     Warning warning = new Warning();
     //------------Mapping Method------------

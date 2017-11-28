@@ -8,6 +8,8 @@ package org.firstinspires.ftc.teamcode.Components.RelicRetriever;
 
 public interface RelicRetriever {
 
+    double GRABBER_CLOSED = 0;
+    double ARM_IN = 0;
     /**
      * Maps RelicRetriever to Phones
      */

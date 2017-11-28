@@ -61,8 +61,8 @@ public abstract class RelicRetrieverHardware implements RelicRetriever {
         mArmLift       = null;
         ssArm          = null;
         ssRelicGrabber = null;
-        armLiftPower         = 0;
-        armPosition          = 0;
-        grabberPosition = 0;
+        armLiftPower    = 0;
+        armPosition     = ARM_IN;
+        grabberPosition = GRABBER_CLOSED;
     }
 }

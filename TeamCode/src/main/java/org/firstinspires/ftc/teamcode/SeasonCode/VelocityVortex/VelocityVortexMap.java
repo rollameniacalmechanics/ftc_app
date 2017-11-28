@@ -7,9 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
  */
 public class VelocityVortexMap extends VelocityVortexHardware {
     public void map() {
-        // Hardware Map
+        // Hardware MapVV
         // ADD HARDWARE MAP HERE;
-        // DcMotors - Map
+        // DcMotors - MapVV
         mFL = hardwareMap.dcMotor.get("fl");
         mFR = hardwareMap.dcMotor.get("fr");
         mFR.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -21,10 +21,10 @@ public class VelocityVortexMap extends VelocityVortexHardware {
         sRightBeacon = hardwareMap.servo.get("sRightButt");
         sLeftBeacon.setPosition(initLeftBeacon);
         sRightBeacon.setPosition(initRightBeacon);
-        // Servos - Map
+        // Servos - MapVV
         //sLeftBeacon = hardwareMap.servo.get("sLeftButt");
         //sRightBeacon = hardwareMap.servo.get("sRightButt");
-        // Sensors - Map
+        // Sensors - MapVV
         //touch = hardwareMap.touchSensor.get("touch");
         //color1 = hardwareMap.colorSensor.get("color1");
         //light1 = hardwareMap.lightSensor.get("light1");

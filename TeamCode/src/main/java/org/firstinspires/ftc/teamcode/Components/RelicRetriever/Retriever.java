@@ -5,9 +5,15 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
 /**
  * Created by jeppe on 27-11-2017.
+ *
+ * (description here)
  */
 
 public class Retriever extends RelicRetrieverHardware {
+
+    public static final double GRABBER_OPEN = .3;
+    public static final double GRABBER_CLOSED = 0;
+
     /**
      * Constructor with hardwaremap and position/power
      *

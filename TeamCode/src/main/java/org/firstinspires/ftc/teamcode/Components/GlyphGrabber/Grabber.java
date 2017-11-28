@@ -10,6 +10,10 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
  */
 
 public class Grabber extends GlyphGrabberHardware {
+
+    public static final double HAND_STOPPED = 0;
+    public static final double HAND_OPEN = 1;
+    public static final double HAND_CLOSED = -1;
     // ------------------------ Constructor -------------------------
     /**
      * Constructs a one motor and one servo

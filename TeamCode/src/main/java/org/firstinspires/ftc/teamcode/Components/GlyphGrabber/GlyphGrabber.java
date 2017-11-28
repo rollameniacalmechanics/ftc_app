@@ -9,8 +9,6 @@ package org.firstinspires.ftc.teamcode.Components.GlyphGrabber;
 public interface GlyphGrabber {
 
     double HAND_STOPPED = 0;
-    double HAND_OPEN = 1;
-    double HAND_CLOSED = -1;
 
     /**
      * Maps Component to Phones
