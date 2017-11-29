@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
  *
  * Alpha Code for 6168
  */
-@TeleOp(name = "Relic Recovery TeleOp Alpha",group = "TeleOp")
+@TeleOp(name = "Relic Recovery TeleOp",group = "TeleOp")
 public class BigBerthaTeleOp extends OpMode {
     // --------------------- Private Variables ----------------------
     private BigBertha robot;

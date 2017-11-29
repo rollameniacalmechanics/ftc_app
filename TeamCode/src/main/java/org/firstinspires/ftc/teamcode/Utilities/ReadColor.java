@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.Utilities;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.RelicRecovery.RelicRecovery.RelicRecoveryHardware;
 
 /**
  * Created by lsatt on 11/25/2017.
+ *
+ * Class to read color sensor
  */
 
 public class ReadColor {

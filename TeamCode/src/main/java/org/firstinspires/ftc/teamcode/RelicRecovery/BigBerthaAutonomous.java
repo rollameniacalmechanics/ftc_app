@@ -14,7 +14,7 @@ import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.*;
 /**
  * Created by Shane on 7/19/2017.
  */
-@Autonomous(name = "Relic Recovery Autonomous Alpha", group = "Autonomous")
+@Autonomous(name = "Relic Recovery Autonomous", group = "Autonomous")
 public class BigBerthaAutonomous extends OpMode {
 
     private BigBertha robot;
