@@ -1,5 +1,9 @@
 package org.firstinspires.ftc.teamcode.Components.GlyphGrabber;
 
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import org.firstinspires.ftc.teamcode.Components.ComponentHardware;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
@@ -9,11 +13,36 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
  * (description here)
  */
 
-public class Grabber extends GlyphGrabberHardware {
+public class Grabber extends ComponentHardware {
 
     public static final double HAND_STOPPED = 0;
     public static final double HAND_OPEN = 1;
     public static final double HAND_CLOSED = -1;
+
+    /**
+     *
+     * lift motor
+     *
+     */
+    public DcMotor mLift;
+    /**
+     *
+     * hand servo
+     *
+     */
+    public CRServo crHand;
+
+
+    // --------------------- Hardware Variables ---------------------
+    /**
+     * this variable is used to set power the lift motor
+     */
+    public double liftPower;
+
+    /**
+     * this variable is used to set power the hand crServo
+     */
+    public double crHandPosition;
     // ------------------------ Constructor -------------------------
     /**
      * Constructs a one motor and one servo
@@ -24,6 +53,10 @@ public class Grabber extends GlyphGrabberHardware {
     public Grabber(Map map, SetRobot setRobot) {
         this.map = map;
         this.setRobot = setRobot;
+        mLift       = null;
+        crHand      = null;
+        liftPower   = 0;
+        crHandPosition = HAND_STOPPED;
     }
     // -------------------------- Mapping ---------------------------
     /**

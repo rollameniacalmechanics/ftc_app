@@ -1,5 +1,8 @@
 package org.firstinspires.ftc.teamcode.Components.RelicRetriever;
 
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
+
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
@@ -15,6 +18,38 @@ public class Retriever extends RelicRetrieverHardware {
     public static final double GRABBER_CLOSED = 0;
 
     /**
+     * Lift arm motor
+     */
+    public DcMotor mArmLift;
+    /**
+     * Arm servo
+     */
+    public Servo ssArm;
+    /**
+     * Relic grabber servo
+     */
+    public Servo ssRelicGrabber;
+    // --------------------- Motor Values ---------------------------
+    /**
+     * The power for the armlifter
+     */
+    public double armLiftPower;
+    /**
+     * the position for the arm
+     */
+    public double armPosition;
+    /**
+     * the position for the relic grabber
+     */
+    public double grabberPosition;
+
+    /**
+     * Constructor
+     *
+     * Initializes objects to null and variables to 0
+     */
+
+    /**
      * Constructor with hardwaremap and position/power
      *
      * @param map Used to map the objects
@@ -23,6 +58,12 @@ public class Retriever extends RelicRetrieverHardware {
     public Retriever(Map map, SetRobot setRobot) {
         this.map = map;
         this.setRobot = setRobot;
+        mArmLift       = null;
+        ssArm          = null;
+        ssRelicGrabber = null;
+        armLiftPower    = 0;
+        armPosition     = ARM_IN;
+        grabberPosition = GRABBER_CLOSED;
     }
 
     @Override

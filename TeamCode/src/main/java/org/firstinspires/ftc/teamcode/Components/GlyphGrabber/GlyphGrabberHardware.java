@@ -23,29 +23,6 @@ public abstract class GlyphGrabberHardware implements GlyphGrabber {
      */
     protected SetRobot setRobot;
     // ---------------------- Hardware Devices ----------------------
-    /**
-     *
-     * lift motor
-     *
-     */
-    public DcMotor mLift;
-    /**
-     *
-     * hand servo
-     *
-     */
-    public CRServo crHand;
-
-    // --------------------- Hardware Variables ---------------------
-    /**
-     * this variable is used to set power the lift motor
-     */
-    public double liftPower;
-
-    /**
-     * this variable is used to set power the hand crServo
-     */
-    public double crHandPosition;
 
     // ------------------------ Constructor -------------------------
     /**
@@ -54,10 +31,7 @@ public abstract class GlyphGrabberHardware implements GlyphGrabber {
     GlyphGrabberHardware() {
         map         = null;
         setRobot    = null;
-        mLift       = null;
-        crHand      = null;
-        liftPower   = 0;
-        crHandPosition = HAND_STOPPED;
+
     }
 }
 /**
