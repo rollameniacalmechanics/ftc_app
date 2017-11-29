@@ -124,7 +124,7 @@ public class BigBerthaAutonomous extends OpMode {
         useIMU.run();
         switch(_state) {
             case READING_VALUES:
-                robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
+                robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
                 if(useVuforia.run() && readColor.readColor()) {
                     _state = States.HIT_JEWEL;
                 }
@@ -132,9 +132,9 @@ public class BigBerthaAutonomous extends OpMode {
             case HIT_JEWEL:
                 jewelColor = readColor.getColorDetected();
                 if (jewelColor == ReadColor.Color.RED) {
-                    robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_RIGHT;
+                    robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
                 } else if (jewelColor == ReadColor.Color.BLUE) {
-                    robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_LEFT;
+                    robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_LEFT;
                 } else {
                     telemetry.addData("Color", "neither, you messed up");
                 }
@@ -149,8 +149,8 @@ public class BigBerthaAutonomous extends OpMode {
                 _state = States.MOVE_OFF_PLATE;
                 break;
             case MOVE_OFF_PLATE:
-                robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_UP;
-                robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_CENTER;
+                robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_UP;
+                robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_CENTER;
                 robot.driveTrain.leftPower = 1;
                 robot.driveTrain.rightPower = 1;
                 if (robot.driveTrain.mRight.getCurrentPosition() > 21.75*COUNTS_PER_INCH) {

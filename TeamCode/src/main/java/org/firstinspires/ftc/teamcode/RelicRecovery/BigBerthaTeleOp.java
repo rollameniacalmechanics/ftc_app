@@ -175,20 +175,20 @@ public class BigBerthaTeleOp extends OpMode {
                 isPad1XReleased = true;
             }
             if (isPad1XReleased) {
-                if (robot.jewelRejector.ballPusherPosition == JewelRejector.JEWEL_REJECTOR_UP) {
-                    robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
+                if (robot.jewelRejector.jewelRejectorPosition == JewelRejector.JEWEL_REJECTOR_UP) {
+                    robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
                 } else {
-                    robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_UP;
+                    robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_UP;
                 }
             }
         }
 
         if (gamepad1.b) {
-            robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_RIGHT;
+            robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
         } else if (gamepad1.a) {
-            robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_LEFT;
+            robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_LEFT;
         } else {
-            robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_CENTER;
+            robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_CENTER;
         }
     }
     // ---------------------- Pad 2 -----------------------
