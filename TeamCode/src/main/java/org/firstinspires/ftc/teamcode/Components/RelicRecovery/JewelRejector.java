@@ -10,21 +10,46 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 /**
  * Created by spmce on 11/18/2017.
  *
- * Jewel Rejector Component
+ * The Jewel Rejector Component is used to knock off the other team's color jewel
  */
 public class JewelRejector extends ComponentHardware {
     // ------------------------- Constants --------------------------
-    public static final double BALL_PUSHER_UP = .44;
-    public static final double BALL_PUSHER_DOWN = 1;
+    /**
+     * value of when the jewel rejector is up
+     */
+    public static final double JEWEL_REJECTOR_UP = .44;
+    /**
+     * value of when the jewel rejector is down
+     */
+    public static final double JEWEL_REJECTOR_DOWN = 1;
+    /**
+     * value of when the jewel rejector rotator is centered
+     */
     public static final double BALL_ROTATOR_CENTER = .425;
+    /**
+     * value of when the jewel rejector rotator is set right
+     */
     public static final double BALL_ROTATOR_RIGHT = .675;
+    /**
+     * value of when the jewel rejector rotator is set left
+     */
     public static final double BALL_ROTATOR_LEFT = .175;
+    // ---------------------- Hardware Devices ----------------------
     // ------------ Standard Servos -------------
+    /**
+     * servo that pushes jewel
+     */
     public Servo ssBallPusher;
+    /**
+     * servo that rotates the jewel rejector servo
+     */
     public Servo ssBallRotator;
     // ---------------- Sensors -----------------
+    /**
+     * color sensor used to detect color of jewels
+     */
     public ColorSensor sColor;
-
+    // --------------------- Hardware Variables ---------------------
     public double ballPusherPosition;
     public double ballRotatorPosition;
 
@@ -35,7 +60,7 @@ public class JewelRejector extends ComponentHardware {
         ssBallPusher = null;
         ssBallRotator = null;
         sColor = null;
-        ballPusherPosition = BALL_PUSHER_UP;
+        ballPusherPosition = JEWEL_REJECTOR_UP;
         ballRotatorPosition = BALL_ROTATOR_CENTER;
     }
 
@@ -48,7 +73,7 @@ public class JewelRejector extends ComponentHardware {
 
     @Override
     public void runHardware() {
-        setRobot.position(ssBallPusher,ballPusherPosition,"ball pusher servo");
-        setRobot.position(ssBallRotator,ballRotatorPosition,"ball rotator servo");
+        setRobot.position(ssBallPusher,ballPusherPosition,"jewel rejector servo");
+        setRobot.position(ssBallRotator,ballRotatorPosition,"jewel rotator servo");
     }
 }

@@ -26,7 +26,7 @@ public class TestColors extends OpMode {
 
     @Override
     public void loop() {
-        robot.jewelRejector.ballPusherPosition = robot.jewelRejector.BALL_PUSHER_DOWN;
+        robot.jewelRejector.ballPusherPosition = robot.jewelRejector.JEWEL_REJECTOR_DOWN;
         setRobot.position(robot.jewelRejector.ssBallPusher,robot.jewelRejector.ballPusherPosition,"ball pusher");
         telemetry.addData("blue",robot.jewelRejector.sColor.blue());
         telemetry.addData("red",robot.jewelRejector.sColor.red());

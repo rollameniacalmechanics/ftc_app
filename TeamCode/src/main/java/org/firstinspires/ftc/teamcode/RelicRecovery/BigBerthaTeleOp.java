@@ -175,10 +175,10 @@ public class BigBerthaTeleOp extends OpMode {
                 isPad1XReleased = true;
             }
             if (isPad1XReleased) {
-                if (robot.jewelRejector.ballPusherPosition == JewelRejector.BALL_PUSHER_UP) {
-                    robot.jewelRejector.ballPusherPosition = JewelRejector.BALL_PUSHER_DOWN;
+                if (robot.jewelRejector.ballPusherPosition == JewelRejector.JEWEL_REJECTOR_UP) {
+                    robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
                 } else {
-                    robot.jewelRejector.ballPusherPosition = JewelRejector.BALL_PUSHER_UP;
+                    robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_UP;
                 }
             }
         }

@@ -4,12 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Components.RelicRecovery.JewelRejector;
 import org.firstinspires.ftc.teamcode.Utilities.ReadColor;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 import org.firstinspires.ftc.teamcode.Utilities.UseIMU;
 import org.firstinspires.ftc.teamcode.Utilities.UseVuforia;
 
-import static org.firstinspires.ftc.teamcode.Utilities.ServoPositions.*;
 
 /**
  * Created by Shane on 7/19/2017.
@@ -45,24 +45,54 @@ public class BigBerthaAutonomous extends OpMode {
 
     @Override
     public void init() {
-        robot = new BigBertha(hardwareMap,telemetry);
-        robot.init();
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                robot = new BigBertha(hardwareMap,telemetry);
+                robot.init();
+                robot.glyphGrabber.crHand.setPower(-1);
 
-        robot.glyphGrabber.crHand.setPower(-1);
+                robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        useVuforia = new UseVuforia(hardwareMap,telemetry);
-        readColor = new ReadColor(robot.jewelRejector.sColor);
-        setRobot = new SetRobot(telemetry);
-        useIMU = new UseIMU(hardwareMap,telemetry);
-
-        useVuforia.init();
-        useIMU.init();
+                readColor = new ReadColor(robot.jewelRejector.sColor);
+                telemetry.addData("Robot Init","done");
+            }
+        });
+        Thread u = new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                setRobot = new SetRobot(telemetry);
+                telemetry.addData("Set Robot Init","done");
+            }
+        });
+        Thread v = new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                useVuforia = new UseVuforia(hardwareMap,telemetry);
+                useVuforia.init();
+                telemetry.addData("Use Vuforia Init","done");
+            }
+        });
+        Thread w = new Thread(new Runnable() {
+            @Override
+            public void run()
+            {
+                useIMU = new UseIMU(hardwareMap,telemetry);
+                useIMU.init();
+                telemetry.addData("Use IMU Init","done");
+            }
+        });
+        t.start();
+        u.start();
+        v.start();
+        w.start();
     }
 
     public void start() {
@@ -94,7 +124,7 @@ public class BigBerthaAutonomous extends OpMode {
         useIMU.run();
         switch(_state) {
             case READING_VALUES:
-                robot.jewelRejector.ballPusherPosition = BALL_PUSHER_DOWN;
+                robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
                 if(useVuforia.run() && readColor.readColor()) {
                     _state = States.HIT_JEWEL;
                 }
@@ -102,9 +132,9 @@ public class BigBerthaAutonomous extends OpMode {
             case HIT_JEWEL:
                 jewelColor = readColor.getColorDetected();
                 if (jewelColor == ReadColor.Color.RED) {
-                    robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_RIGHT;
+                    robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_RIGHT;
                 } else if (jewelColor == ReadColor.Color.BLUE) {
-                    robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_LEFT;
+                    robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_LEFT;
                 } else {
                     telemetry.addData("Color", "neither, you messed up");
                 }
@@ -119,8 +149,8 @@ public class BigBerthaAutonomous extends OpMode {
                 _state = States.MOVE_OFF_PLATE;
                 break;
             case MOVE_OFF_PLATE:
-                robot.jewelRejector.ballPusherPosition = BALL_PUSHER_UP;
-                robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_CENTER;
+                robot.jewelRejector.ballPusherPosition = JewelRejector.JEWEL_REJECTOR_UP;
+                robot.jewelRejector.ballRotatorPosition = JewelRejector.BALL_ROTATOR_CENTER;
                 robot.driveTrain.leftPower = 1;
                 robot.driveTrain.rightPower = 1;
                 if (robot.driveTrain.mRight.getCurrentPosition() > 21.75*COUNTS_PER_INCH) {

@@ -1,6 +1,5 @@
 package org.firstinspires.ftc.teamcode.Components.ComponentInterface;
 
-import org.firstinspires.ftc.teamcode.Components.ComponentInterface.Component;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
