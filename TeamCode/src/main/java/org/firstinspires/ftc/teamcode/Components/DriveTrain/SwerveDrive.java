@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
  * Created by spmce on 11/26/2017.
  *
  * This drive train is used for robots with a four motor drive train
+ * and uses four additional motors to rotate the wheels
  */
 public class SwerveDrive extends FourMotor {
     // ---------------------- Hardware Devices ----------------------

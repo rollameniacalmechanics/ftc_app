@@ -13,6 +13,10 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
  */
 public class BigBertha extends Robot {
     // ----------------------- Robot Objects ------------------------
+
+    /**
+     * addd hereeeee
+     */
     GlyphGrabber glyphGrabber;
     RelicRetriever relicRetriever;
     JewelRejector jewelRejector;
