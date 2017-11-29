@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Utilities;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.SeasonCode.RelicRecovery.RelicRecoveryHardware;
+import org.firstinspires.ftc.teamcode.RelicRecovery.RelicRecovery.RelicRecoveryHardware;
 
 /**
  * Created by lsatt on 11/25/2017.

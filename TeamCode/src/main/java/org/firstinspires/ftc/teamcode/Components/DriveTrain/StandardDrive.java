@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.Components.DriveTrain;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.teamcode.Components.ComponentHardware;
+import org.firstinspires.ftc.teamcode.Components.ComponentInterface.ComponentHardware;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
