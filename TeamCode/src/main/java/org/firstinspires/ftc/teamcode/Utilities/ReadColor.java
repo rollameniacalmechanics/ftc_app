@@ -31,8 +31,15 @@ public class ReadColor {
     // ----------------------- Public Methods -----------------------
     public boolean readColor() {
         if (colorSensor.blue() > SENSOR_COMPARE_BLUE) {
-            ifColorFound = true;
-            colorDetected = Color.BLUE;
+            if (colorSensor.blue() > colorSensor.red()) {
+                ifColorFound = true;
+                colorDetected = Color.BLUE;
+            } else {
+                if (colorSensor.red() > SENSOR_COMPARE_RED) {
+                    ifColorFound = true;
+                    colorDetected = Color.RED;
+                }
+            }
         } else if (colorSensor.red() > SENSOR_COMPARE_RED) {
             ifColorFound = true;
             colorDetected = Color.RED;

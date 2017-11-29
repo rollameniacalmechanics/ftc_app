@@ -14,11 +14,11 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
  */
 public class JewelRejector extends ComponentHardware {
     // ------------------------- Constants --------------------------
-    public static final double BALL_PUSHER_UP = .5;
+    public static final double BALL_PUSHER_UP = .44;
     public static final double BALL_PUSHER_DOWN = 1;
-    public static final double BALL_ROTATOR_CENTER = .5;
-    public static final double BALL_ROTATOR_RIGHT = .7;
-    public static final double BALL_ROTATOR_LEFT = .3;
+    public static final double BALL_ROTATOR_CENTER = .425;
+    public static final double BALL_ROTATOR_RIGHT = .675;
+    public static final double BALL_ROTATOR_LEFT = .175;
     // ------------ Standard Servos -------------
     public Servo ssBallPusher;
     public Servo ssBallRotator;
@@ -41,7 +41,7 @@ public class JewelRejector extends ComponentHardware {
 
     @Override
     public void initHardware() {
-        ssBallPusher  = map.servo("sBall",ballPusherPosition);
+        ssBallPusher  = map.revServo("sBall",ballPusherPosition);
         ssBallRotator = map.servo("sBallRotator",ballRotatorPosition);
         sColor = map.colorSensor("cd");
     }

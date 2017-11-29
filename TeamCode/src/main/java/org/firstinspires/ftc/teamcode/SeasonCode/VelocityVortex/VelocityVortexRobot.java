@@ -5,7 +5,7 @@ package org.firstinspires.ftc.teamcode.SeasonCode.VelocityVortex;
  */
 public abstract interface VelocityVortexRobot {
     /**
-     * Run Robot
+     * run Robot
      */
     public abstract void run();
 }

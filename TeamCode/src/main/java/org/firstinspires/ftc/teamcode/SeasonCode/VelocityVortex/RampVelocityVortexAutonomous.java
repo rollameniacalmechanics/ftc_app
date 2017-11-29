@@ -27,7 +27,7 @@ public class RampVelocityVortexAutonomous extends VelocityVortexAutoMeth {
     }
 
     /**
-     * Run sensor telemetry in init loop
+     * run sensor telemetry in init loop
      */
     @Override
     public void init_loop() {

@@ -46,6 +46,9 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
     @Override
     public void init() {
         robot = new BigBerthaRelicRecoveryRobot(hardwareMap,telemetry);
+        robot.init();
+
+        robot.glyphGrabber.crHand.setPower(-1);
 
         robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -70,10 +73,15 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
     enum States {
         READING_VALUES ,
         HIT_JEWEL,
+        WAIT_TO_MOVE,
         MOVE_OFF_PLATE,
         ROTATE,
         WAIT,
+        RESET_ENCODERS,
         TO_BOX,
+        ROTATE_TO_BOX,
+        RESET_ENCODERS_AGAIN,
+        TO_BOX_AGAIN,
         STOP
     }
 
@@ -82,6 +90,7 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
 
     @Override
     public void loop() {
+        robot.run();
         useIMU.run();
         switch(_state) {
             case READING_VALUES:
@@ -99,8 +108,11 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
                 } else {
                     telemetry.addData("Color", "neither, you messed up");
                 }
+                _state = States.WAIT_TO_MOVE;
+                break;
+            case WAIT_TO_MOVE:
                 try {
-                    Thread.sleep(250); // .1 second
+                    Thread.sleep(275); // .1 second
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
@@ -111,7 +123,7 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
                 robot.jewelRejector.ballRotatorPosition = BALL_ROTATOR_CENTER;
                 robot.driveTrain.leftPower = 1;
                 robot.driveTrain.rightPower = 1;
-                if (robot.driveTrain.mRight.getCurrentPosition() > 24*COUNTS_PER_INCH) {
+                if (robot.driveTrain.mRight.getCurrentPosition() > 21.75*COUNTS_PER_INCH) {
                     _state = States.ROTATE;
                 }
                 break;
@@ -123,14 +135,16 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
                         robot.driveTrain.leftPower = -.3;
                         robot.driveTrain.rightPower = .3;
                         while (useIMU.getHeading() < 90) {
-                            telemetry.clear();
-                            telemetry.addData("------HEADING------", useIMU.getHeading());
+                            robot.driveTrain.leftPower = -.3;
+                            robot.driveTrain.rightPower = .3;
+                            //robot.driveTrain.leftPower += .00003;
+                            //robot.driveTrain.rightPower -= .00003;
                         }
+                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.mLeft.setPower(0);
                         robot.driveTrain.leftPower = 0;
                         robot.driveTrain.rightPower = 0;
-                        setRobot.power(robot.driveTrain.mRight,0,"right motor");
-                        setRobot.power(robot.driveTrain.mLeft,0,"left motor");
-                        _state = States.STOP;
+                        _state = States.RESET_ENCODERS;
                     }
                 });
                 t.start();
@@ -139,10 +153,60 @@ public class BigBerthaRelicRecoveryAutonomous extends OpMode {
             case WAIT:
                 telemetry.addData("Im waiting", "waiting");
                 break;
+            case RESET_ENCODERS:
+                robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                _state = States.TO_BOX;
+                break;
             case TO_BOX:
                 robot.driveTrain.leftPower = .5;
+                robot.driveTrain.rightPower = .775;
+                if (robot.driveTrain.mRight.getCurrentPosition() > (20)*COUNTS_PER_INCH) {
+                    robot.driveTrain.leftPower = .4;
+                    robot.driveTrain.rightPower = .975;
+                }
+                if (robot.driveTrain.mRight.getCurrentPosition() > (52)*COUNTS_PER_INCH) {
+                    _state = States.ROTATE_TO_BOX;
+                }
+                break;
+            case ROTATE_TO_BOX:
+                Thread u = new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        robot.driveTrain.leftPower = -.3;
+                        robot.driveTrain.rightPower = .3;
+                        while (useIMU.getHeading() < 175) {
+                            robot.driveTrain.leftPower = -.3;
+                            robot.driveTrain.rightPower = .3;
+                            //robot.driveTrain.leftPower += .00003;
+                            //robot.driveTrain.rightPower -= .00003;
+                        }
+                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.mLeft.setPower(0);
+                        robot.driveTrain.leftPower = 0;
+                        robot.driveTrain.rightPower = 0;
+                        _state = States.RESET_ENCODERS_AGAIN;
+                    }
+                });
+                u.start();
+                _state = States.WAIT;
+                break;
+            case RESET_ENCODERS_AGAIN:
+                robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                _state = States.TO_BOX_AGAIN;
+                break;
+            case TO_BOX_AGAIN:
+                robot.driveTrain.leftPower = .5;
                 robot.driveTrain.rightPower = .5;
-                if (robot.driveTrain.mRight.getCurrentPosition() > (20+40+30)*COUNTS_PER_INCH) {
+                if (robot.driveTrain.mRight.getCurrentPosition() > (54)*COUNTS_PER_INCH) {
                     _state = States.STOP;
                 }
                 break;

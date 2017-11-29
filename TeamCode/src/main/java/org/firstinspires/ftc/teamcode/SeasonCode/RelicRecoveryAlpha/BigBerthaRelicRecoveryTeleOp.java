@@ -27,6 +27,9 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
     private boolean rightStick1 = true;
     private boolean defaultDrive = true;
 
+    private boolean isPad1dYPressed;
+    private boolean isPad1dYReleased;
+
     private boolean isPad1XPressed;
     private boolean isPad1XReleased;
     private boolean isPad1YPressed;
@@ -49,7 +52,7 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
     public void loop() {
         padControls();
         tele();
-        robot.setHardwarePower();
+        robot.run();
     }
     // ---------------------- Private Methods -----------------------
     // ----------------------- Pads -----------------------
@@ -85,16 +88,20 @@ public class BigBerthaRelicRecoveryTeleOp extends OpMode {
         }
         double drivePower[] = new double[2];
         if (defaultDrive) {
-            if (gamepad1.right_bumper) {
-                driveConfig++;
-                if (driveConfig == 2) {
-                    driveConfig = 0;
-                }
+            if (gamepad1.y) {
+                isPad1dYPressed = true;
+                isPad1dYReleased = false;
             }
-            if (gamepad1.left_stick_button) {
-                driveConfig--;
-                if (driveConfig == -1) {
-                    driveConfig = 1;
+            if (isPad1dYPressed) {
+                if (!gamepad1.y) {
+                    isPad1dYPressed = false;
+                    isPad1dYReleased = true;
+                }
+                if (isPad1dYReleased) {
+                    driveConfig++;
+                    if (driveConfig == 2) {
+                        driveConfig = 0;
+                    }
                 }
             }
             if (driveConfig == 0) {

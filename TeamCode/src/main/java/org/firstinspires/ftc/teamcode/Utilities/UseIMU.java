@@ -61,6 +61,7 @@ public class UseIMU {
         // and named "imu".
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+        telemetry.addData("gyro calibrating",imu.getCalibrationStatus());
 
         // Set up our telemetry dashboard
         composeTelemetry();

@@ -51,7 +51,7 @@ public abstract class Robot implements FTCRobot {
     /**
      * Sets power to drive train and other hardware devices
      */
-    public void setHardwarePower() {
+    public void run() {
         driveTrain.runHardware();
         setHardwarePowers();
     }
