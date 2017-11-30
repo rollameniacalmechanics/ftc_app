@@ -8,24 +8,20 @@ import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
 
 /**
- * Created by jeppe on 27-11-2017.
+ * Created by Jeppe on 27-11-2017.
  *
  * The Relic Grabber component is used to retrieve the relic and place them on the scoring zones.
  */
-
 public class RelicRetriever extends ComponentHardware {
-
     // ------------------------- Constants --------------------------
     /**
      *value of when the arm extender is contracted
      */
     public static final double ARM_IN = 0;
-
     /**
      * value of when the grabber is open
      */
     public static final double GRABBER_OPEN = .3;
-
     /**
      *value of when the grabber is closed
      */
@@ -76,7 +72,6 @@ public class RelicRetriever extends ComponentHardware {
         grabberPosition = GRABBER_CLOSED;
     }
     // -------------------------- Mapping ---------------------------
-
     /**
      * finds hardware on phone
      */
@@ -87,7 +82,6 @@ public class RelicRetriever extends ComponentHardware {
         ssRelicGrabber = map.servo("sGrabber", grabberPosition);
     }
     // --------------------- Set Hardware Power ---------------------
-
     /**
      * sets power to hardware
      */

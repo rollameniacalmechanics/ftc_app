@@ -10,10 +10,11 @@ import org.firstinspires.ftc.teamcode.Robot.Robot;
 
 /**
  * Created by Shane on 26-11-2017.
+ *
+ * This is the 6168 FTC Robot for the Relic Recovery
  */
 public class BigBertha extends Robot {
     // ----------------------- Robot Objects ------------------------
-
     /**
      * addd hereeeee
      */
