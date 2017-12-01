@@ -125,7 +125,7 @@ public class BigBerthaAutonomous extends OpMode {
         switch(_state) {
             case READING_VALUES:
                 robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
-                if(useVuforia.run() && readColor.readColor()) {
+                if(/*useVuforia.run() &&*/ readColor.readColor()) {
                     _state = States.HIT_JEWEL;
                 }
                 break;
@@ -153,22 +153,34 @@ public class BigBerthaAutonomous extends OpMode {
                 robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_CENTER;
                 robot.driveTrain.leftPower = 1;
                 robot.driveTrain.rightPower = 1;
-                if (robot.driveTrain.mRight.getCurrentPosition() > 21.75*COUNTS_PER_INCH) {
-                    _state = States.ROTATE;
-                }
+                Thread s = new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        while (robot.driveTrain.mRight.getCurrentPosition() < 22*COUNTS_PER_INCH) {
+                            robot.driveTrain.leftPower = 1;
+                            robot.driveTrain.rightPower = 1;
+                        }
+                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.mLeft.setPower(0);
+                        robot.driveTrain.leftPower = 0;
+                        robot.driveTrain.rightPower = 0;
+                        _state = States.ROTATE;
+                    }
+                });
+                s.start();
+                _state = States.WAIT;
                 break;
             case ROTATE:
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run()
                     {
-                        robot.driveTrain.leftPower = -.3;
-                        robot.driveTrain.rightPower = .3;
-                        while (useIMU.getHeading() < 90) {
-                            robot.driveTrain.leftPower = -.3;
-                            robot.driveTrain.rightPower = .3;
-                            //robot.driveTrain.leftPower += .00003;
-                            //robot.driveTrain.rightPower -= .00003;
+                        robot.driveTrain.leftPower = -.5;
+                        robot.driveTrain.rightPower = .5;
+                        while (useIMU.getHeading() < 105) {
+                            robot.driveTrain.leftPower = -.4;
+                            robot.driveTrain.rightPower = .4;
                         }
                         robot.driveTrain.mRight.setPower(0);
                         robot.driveTrain.mLeft.setPower(0);
@@ -192,28 +204,51 @@ public class BigBerthaAutonomous extends OpMode {
                 _state = States.TO_BOX;
                 break;
             case TO_BOX:
-                robot.driveTrain.leftPower = .5;
-                robot.driveTrain.rightPower = .775;
-                if (robot.driveTrain.mRight.getCurrentPosition() > (20)*COUNTS_PER_INCH) {
+                robot.driveTrain.leftPower = .67;
+                robot.driveTrain.rightPower = 1;
+                Thread v = new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        while (true) {
+                            if (robot.driveTrain.mRight.getCurrentPosition() > (16)*COUNTS_PER_INCH)
+                                break;
+                        }
+                        robot.driveTrain.mLeft.setPower(.35);
+                        robot.driveTrain.mRight.setPower(1);
+                        robot.driveTrain.leftPower = .35;
+                        robot.driveTrain.rightPower = 1;
+                        while (true) {
+                            if (robot.driveTrain.mRight.getCurrentPosition() > (49)*COUNTS_PER_INCH)
+                                break;
+                        }
+                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.mLeft.setPower(0);
+                        robot.driveTrain.leftPower = 0;
+                        robot.driveTrain.rightPower = 0;
+                        _state = States.ROTATE_TO_BOX;
+                    }
+                });
+                v.start();
+                /*if (robot.driveTrain.mRight.getCurrentPosition() > (18)*COUNTS_PER_INCH) {
                     robot.driveTrain.leftPower = .4;
                     robot.driveTrain.rightPower = .975;
                 }
-                if (robot.driveTrain.mRight.getCurrentPosition() > (52)*COUNTS_PER_INCH) {
+                if (robot.driveTrain.mRight.getCurrentPosition() > (49)*COUNTS_PER_INCH) {
                     _state = States.ROTATE_TO_BOX;
-                }
+                }*/
+                _state = States.WAIT;
                 break;
             case ROTATE_TO_BOX:
                 Thread u = new Thread(new Runnable() {
                     @Override
                     public void run()
                     {
-                        robot.driveTrain.leftPower = -.3;
-                        robot.driveTrain.rightPower = .3;
-                        while (useIMU.getHeading() < 175) {
-                            robot.driveTrain.leftPower = -.3;
-                            robot.driveTrain.rightPower = .3;
-                            //robot.driveTrain.leftPower += .00003;
-                            //robot.driveTrain.rightPower -= .00003;
+                        robot.driveTrain.leftPower = -.75;
+                        robot.driveTrain.rightPower = .75;
+                        while (true) {
+                            if (useIMU.getHeading() > -170 && useIMU.getHeading() < -90)
+                                break;
                         }
                         robot.driveTrain.mRight.setPower(0);
                         robot.driveTrain.mLeft.setPower(0);
@@ -236,7 +271,7 @@ public class BigBerthaAutonomous extends OpMode {
             case TO_BOX_AGAIN:
                 robot.driveTrain.leftPower = .5;
                 robot.driveTrain.rightPower = .5;
-                if (robot.driveTrain.mRight.getCurrentPosition() > (54)*COUNTS_PER_INCH) {
+                if (robot.driveTrain.mRight.getCurrentPosition() > (12)*COUNTS_PER_INCH) {
                     _state = States.STOP;
                 }
                 break;

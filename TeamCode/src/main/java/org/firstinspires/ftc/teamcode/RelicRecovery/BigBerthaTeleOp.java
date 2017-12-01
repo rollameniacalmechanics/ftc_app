@@ -26,6 +26,7 @@ public class BigBerthaTeleOp extends OpMode {
     private boolean leftStick1 = true;
     private boolean rightStick1 = true;
     private boolean defaultDrive = true;
+    private boolean inverseDrive = false;
 
     private boolean isPad1dYPressed;
     private boolean isPad1dYReleased;
@@ -36,6 +37,8 @@ public class BigBerthaTeleOp extends OpMode {
     private boolean isPad1YReleased;
     private boolean isPad2YPressed;
     private boolean isPad2YReleased;
+
+
 
     // ----------------------- Public Methods -----------------------
     // ----------------------- Init -----------------------
@@ -114,8 +117,22 @@ public class BigBerthaTeleOp extends OpMode {
                 drivePower = turn.drive(gamepad1);
                 driveMode = "Turn Drive";
             }
+            if (gamepad1.dpad_up) {
+                inverseDrive = true;
+            } else if (gamepad1.dpad_down) {
+                inverseDrive = false;
+            }
+            if (inverseDrive) {
+                double temp = robot.driveTrain.rightPower;
+                robot.driveTrain.rightPower = -robot.driveTrain.leftPower;
+                robot.driveTrain.leftPower = -temp;
+            }
             robot.glyphGrabber.liftPower = 0;
+            robot.relicRetriever.armLiftPower = 0;
         } else { // for gamepad 1 controls override
+            TankDriveMethods tank = new TankDriveMethods();
+            drivePower = tank.drive(gamepad1);
+            driveMode = "Tank Drive";
             // ---- relic override ----
             if (gamepad1.y) {
                 isPad1YPressed = true;
@@ -144,9 +161,9 @@ public class BigBerthaTeleOp extends OpMode {
             }
             // ----- arm override -----
             if (gamepad1.right_bumper) {
-                robot.relicRetriever.armPosition += .02;
+                robot.relicRetriever.armPosition += .001;
             } else if (gamepad1.left_bumper) {
-                robot.relicRetriever.armPosition -=.02;
+                robot.relicRetriever.armPosition -=.001;
             }
             robot.relicRetriever.armLiftPower = gamepad1.right_trigger - gamepad1.left_trigger;
         }
@@ -225,7 +242,7 @@ public class BigBerthaTeleOp extends OpMode {
                     robot.relicRetriever.armPosition = 1;
             }
         }
-        robot.relicRetriever.armLiftPower = gamepad2.right_trigger - gamepad2.left_trigger;
+        robot.relicRetriever.armLiftPower += gamepad2.right_trigger - gamepad2.left_trigger;
     }
 
     private void tele() {
@@ -242,6 +259,9 @@ public class BigBerthaTeleOp extends OpMode {
     }
     private void slowDrive() {
         telemetry.addData("If Slow Drive", slowDrive);
+    }
+    private void inverseDrive() {
+        telemetry.addData("If Inverse Drive", inverseDrive);
     }
     private void ifHold() {
         telemetry.addData("If Relic Held", ifHold);

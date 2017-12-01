@@ -160,6 +160,6 @@ public class UseIMU {
     }
 
     public float getHeading() {
-        return angles.firstAngle;
+        return angles.thirdAngle;
     }
 }

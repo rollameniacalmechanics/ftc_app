@@ -29,11 +29,11 @@ public class JewelRejector extends ComponentHardware {
     /**
      * value of when the jewel rejector rotator is set right
      */
-    public static final double JEWEL_ROTATOR_RIGHT = .675;
+    public static final double JEWEL_ROTATOR_RIGHT = .175;
     /**
      * value of when the jewel rejector rotator is set left
      */
-    public static final double JEWEL_ROTATOR_LEFT = .175;
+    public static final double JEWEL_ROTATOR_LEFT = .675;
     // ---------------------- Hardware Devices ----------------------
     // ------------ Standard Servos -------------
     /**
