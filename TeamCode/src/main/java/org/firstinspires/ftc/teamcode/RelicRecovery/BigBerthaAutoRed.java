@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
+import org.firstinspires.ftc.teamcode.Components.RelicRecovery.GlyphGrabber;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.JewelRejector;
 import org.firstinspires.ftc.teamcode.Utilities.ReadColor;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
@@ -14,9 +15,10 @@ import org.firstinspires.ftc.teamcode.Utilities.UseVuforia;
 /**
  * Created by Shane on 7/19/2017.
  */
-@Autonomous(name = "Relic Recovery Autonomous", group = "Autonomous")
-public class BigBerthaAutonomous extends OpMode {
+@Autonomous(name = "Backup Relic Recovery Auto Red", group = "Autonomous")
+public class BigBerthaAutoRed extends OpMode {
 
+    // do thread to continue after 5 seconds and open grabber after 28 seconds
     private BigBertha robot;
 
     /**
@@ -101,6 +103,7 @@ public class BigBerthaAutonomous extends OpMode {
     }
 
     enum States {
+        TIMER,
         READING_VALUES ,
         HIT_JEWEL,
         WAIT_TO_MOVE,
@@ -123,6 +126,36 @@ public class BigBerthaAutonomous extends OpMode {
         robot.run();
         useIMU.run();
         switch(_state) {
+            case TIMER:
+                Thread a = new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                    try {
+                        Thread.sleep(27000); // .1 second
+                    } catch (InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                    robot.glyphGrabber.crHand.setPower(GlyphGrabber.HAND_OPEN);
+                    robot.glyphGrabber.crHandPosition = GlyphGrabber.HAND_OPEN;
+                    }
+                });
+                Thread b = new Thread(new Runnable() {
+                    @Override
+                    public void run()
+                    {
+                        try {
+                            Thread.sleep(2000); // .1 second
+                        } catch (InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+                        _state = States.MOVE_OFF_PLATE;
+                    }
+                });
+                a.start();
+                b.start();
+                _state = States.READING_VALUES;
+                break;
             case READING_VALUES:
                 robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
                 if(/*useVuforia.run() &&*/ readColor.readColor()) {
@@ -132,9 +165,9 @@ public class BigBerthaAutonomous extends OpMode {
             case HIT_JEWEL:
                 jewelColor = readColor.getColorDetected();
                 if (jewelColor == ReadColor.Color.RED) {
-                    robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
-                } else if (jewelColor == ReadColor.Color.BLUE) {
                     robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_LEFT;
+                } else if (jewelColor == ReadColor.Color.BLUE) {
+                    robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
                 } else {
                     telemetry.addData("Color", "neither, you messed up");
                 }
@@ -176,9 +209,9 @@ public class BigBerthaAutonomous extends OpMode {
                     @Override
                     public void run()
                     {
-                        robot.driveTrain.leftPower = -.5;
-                        robot.driveTrain.rightPower = .5;
-                        while (useIMU.getHeading() < 105) {
+                        robot.driveTrain.leftPower = .5;
+                        robot.driveTrain.rightPower = -.5;
+                        while (useIMU.getHeading() > -105) {
                             robot.driveTrain.leftPower = -.4;
                             robot.driveTrain.rightPower = .4;
                         }
@@ -204,8 +237,8 @@ public class BigBerthaAutonomous extends OpMode {
                 _state = States.TO_BOX;
                 break;
             case TO_BOX:
-                robot.driveTrain.leftPower = .67;
-                robot.driveTrain.rightPower = 1;
+                robot.driveTrain.leftPower = 1;
+                robot.driveTrain.rightPower = .67;
                 Thread v = new Thread(new Runnable() {
                     @Override
                     public void run()
@@ -214,10 +247,10 @@ public class BigBerthaAutonomous extends OpMode {
                             if (robot.driveTrain.mRight.getCurrentPosition() > (16)*COUNTS_PER_INCH)
                                 break;
                         }
-                        robot.driveTrain.mLeft.setPower(.35);
-                        robot.driveTrain.mRight.setPower(1);
-                        robot.driveTrain.leftPower = .35;
-                        robot.driveTrain.rightPower = 1;
+                        robot.driveTrain.mLeft.setPower(1);
+                        robot.driveTrain.mRight.setPower(.35);
+                        robot.driveTrain.leftPower = 1;
+                        robot.driveTrain.rightPower = .35;
                         while (true) {
                             if (robot.driveTrain.mRight.getCurrentPosition() > (49)*COUNTS_PER_INCH)
                                 break;
@@ -244,10 +277,10 @@ public class BigBerthaAutonomous extends OpMode {
                     @Override
                     public void run()
                     {
-                        robot.driveTrain.leftPower = -.75;
-                        robot.driveTrain.rightPower = .75;
+                        robot.driveTrain.leftPower = .75;
+                        robot.driveTrain.rightPower = -.75;
                         while (true) {
-                            if (useIMU.getHeading() > -170 && useIMU.getHeading() < -90)
+                            if (useIMU.getHeading() < 170 && useIMU.getHeading() > 90)
                                 break;
                         }
                         robot.driveTrain.mRight.setPower(0);
@@ -292,4 +325,10 @@ public class BigBerthaAutonomous extends OpMode {
         telemetry.addData("lift encoder",robot.glyphGrabber.mLift.getCurrentPosition());
     }
 
+    @Override
+    public void stop() {
+        super.stop();
+        robot.glyphGrabber.crHand.setPower(GlyphGrabber.HAND_STOPPED);
+        robot.glyphGrabber.crHandPosition = GlyphGrabber.HAND_STOPPED;
+    }
 }
