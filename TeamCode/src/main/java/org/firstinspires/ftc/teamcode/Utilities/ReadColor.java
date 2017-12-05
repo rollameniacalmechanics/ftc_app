@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.Utilities;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 
-import org.firstinspires.ftc.teamcode.SeasonCode.RelicRecovery.RelicRecoveryHardware;
 
 /**
  * Created by lsatt on 11/25/2017.
+ *
+ * Class to read color sensor
  */
 
 public class ReadColor {
@@ -31,8 +32,15 @@ public class ReadColor {
     // ----------------------- Public Methods -----------------------
     public boolean readColor() {
         if (colorSensor.blue() > SENSOR_COMPARE_BLUE) {
-            ifColorFound = true;
-            colorDetected = Color.BLUE;
+            if (colorSensor.blue() > colorSensor.red()) {
+                ifColorFound = true;
+                colorDetected = Color.BLUE;
+            } else {
+                if (colorSensor.red() > SENSOR_COMPARE_RED) {
+                    ifColorFound = true;
+                    colorDetected = Color.RED;
+                }
+            }
         } else if (colorSensor.red() > SENSOR_COMPARE_RED) {
             ifColorFound = true;
             colorDetected = Color.RED;
