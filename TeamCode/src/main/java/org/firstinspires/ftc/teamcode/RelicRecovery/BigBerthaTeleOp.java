@@ -233,10 +233,10 @@ public class BigBerthaTeleOp extends OpMode {
                 isPad2YPressed = false;
             }
             if (isPad2YReleased) {
-                if (robot.relicRetriever.grabberPosition == GlyphGrabber.HAND_OPEN) {
-                    robot.relicRetriever.grabberPosition = GlyphGrabber.HAND_CLOSED;
+                if (robot.relicRetriever.grabberPosition == RelicRetriever.GRABBER_OPEN) {
+                    robot.relicRetriever.grabberPosition = RelicRetriever.GRABBER_CLOSED;
                 } else {
-                    robot.relicRetriever.grabberPosition = GlyphGrabber.HAND_OPEN;
+                    robot.relicRetriever.grabberPosition = RelicRetriever.GRABBER_OPEN;
                 }
             }
         }
