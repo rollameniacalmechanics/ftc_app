@@ -63,4 +63,12 @@ public class StandardDrive extends ComponentHardware {
         setRobot.power(mLeft,leftPower,"left motor");
         setRobot.power(mRight,rightPower,"right motor");
     }
+
+    @Override
+    public void stopHardware() {
+        leftPower  = 0;
+        rightPower = 0;
+        setRobot.power(mLeft,leftPower,"left motor");
+        setRobot.power(mRight,rightPower,"right motor");
+    }
 }

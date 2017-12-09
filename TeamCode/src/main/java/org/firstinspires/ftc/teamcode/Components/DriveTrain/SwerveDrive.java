@@ -90,4 +90,14 @@ public class SwerveDrive extends FourMotor {
         setRobot.power(mSwerveBackLeft,swerveBackLeftPower,"swerve back left motor");
         setRobot.power(mSwerveBackRight,swerveBackRightPower,"swerve back right motor");
     }
+    public void stopHardware(){
+        swerveLeftPower      = 0;
+        swerveRightPower     = 0;
+        swerveBackLeftPower  = 0;
+        swerveBackRightPower = 0
+        setRobot.power(mSwerveLeft,swerveLeftPower,"swerve left motor");
+        setRobot.power(mSwerveRight,swerveRightPower,"swerve right motor");
+        setRobot.power(mSwerveBackLeft,swerveBackLeftPower,"swerve back left motor");
+        setRobot.power(mSwerveBackRight,swerveBackRightPower,"swerve back right motor");
+    }
 }

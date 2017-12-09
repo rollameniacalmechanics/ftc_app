@@ -94,4 +94,12 @@ public class JewelRejector extends ComponentHardware {
         setRobot.position(ssBallPusher, jewelRejectorPosition,"jewel rejector servo");
         setRobot.position(ssBallRotator, jewelRotatorPosition,"jewel rotator servo");
     }
+
+    @Override
+    public void stopHardware() {
+        jewelRejectorPosition = JEWEL_REJECTOR_UP;
+        jewelRotatorPosition = JEWEL_ROTATOR_CENTER;
+        setRobot.position(ssBallPusher, jewelRejectorPosition,"jewel rejector servo");
+        setRobot.position(ssBallRotator, jewelRotatorPosition,"jewel rotator servo");
+    }
 }

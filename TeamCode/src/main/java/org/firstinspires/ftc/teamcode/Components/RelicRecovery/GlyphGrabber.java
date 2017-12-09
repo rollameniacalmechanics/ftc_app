@@ -79,4 +79,12 @@ public class GlyphGrabber extends ComponentHardware {
         setRobot.power(mLift,liftPower,"lift motor");
         setRobot.position(crHand,crHandPosition,"hand crservo");
     }
+
+    @Override
+    public void stopHardware() {
+       liftPower = 0;
+       crHandPosition = HAND_STOPPED;
+        setRobot.power(mLift,liftPower,"lift motor");
+        setRobot.position(crHand,crHandPosition,"hand crservo");
+    }
 }

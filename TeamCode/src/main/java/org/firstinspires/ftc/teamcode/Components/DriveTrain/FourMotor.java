@@ -65,4 +65,10 @@ public class FourMotor extends StandardDrive {
         setRobot.power(mBackLeft,backLeftPower,"back left motor");
         setRobot.power(mBackRight,backRightPower,"back right motor");
     }
+    public void stopHardware(){
+        backLeftPower  = 0;
+        backRightPower = 0;
+        setRobot.power(mBackLeft,backLeftPower,"back left motor");
+        setRobot.power(mBackRight,backRightPower,"back right motor");
+    }
 }

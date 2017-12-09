@@ -91,4 +91,14 @@ public class RelicRetriever extends ComponentHardware {
         setRobot.position(ssArm,armPosition,"arm servo");
         setRobot.position(ssRelicGrabber,grabberPosition,"relic grabber servo");
     }
+
+    @Override
+    public void stopHardware() {
+        armLiftPower    = 0;
+        armPosition     = ARM_IN;
+        grabberPosition = GRABBER_CLOSED;
+        setRobot.power(mArmLift,armLiftPower,"arm lift motor");
+        setRobot.position(ssArm,armPosition,"arm servo");
+        setRobot.position(ssRelicGrabber,grabberPosition,"relic grabber servo");
+    }
 }

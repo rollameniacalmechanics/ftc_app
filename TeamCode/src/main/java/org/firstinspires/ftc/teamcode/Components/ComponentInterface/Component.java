@@ -16,4 +16,8 @@ public interface Component {
      * Set Power to Component
      */
     void runHardware();
+    /**
+     * Stops hardware
+     */
+    void stopHardware();
 }
