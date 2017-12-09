@@ -34,7 +34,7 @@ public class RelicRetriever extends ComponentHardware {
     /**
      * Arm servo
      */
-    public Servo ssArm;
+    public DcMotor mArm;
     /**
      * Relic grabber servo
      */
@@ -47,7 +47,7 @@ public class RelicRetriever extends ComponentHardware {
     /**
      * the position for the arm
      */
-    public double armPosition;
+    public double armPower;
     /**
      * the position for the relic grabber
      */
@@ -65,10 +65,10 @@ public class RelicRetriever extends ComponentHardware {
         this.map = map;
         this.setRobot = setRobot;
         mArmLift       = null;
-        ssArm          = null;
+        mArm          = null;
         ssRelicGrabber = null;
         armLiftPower    = 0;
-        armPosition     = ARM_IN;
+        armPower     = ARM_IN;
         grabberPosition = GRABBER_CLOSED;
     }
     // -------------------------- Mapping ---------------------------
@@ -78,7 +78,7 @@ public class RelicRetriever extends ComponentHardware {
     @Override
     public void initHardware() {
         mArmLift = map.motor("armLift");
-        ssArm = map.revServo("sArm", armPosition);
+        mArm = map.motor("arm");
         ssRelicGrabber = map.servo("sGrabber", grabberPosition);
     }
     // --------------------- Set Hardware Power ---------------------
@@ -88,17 +88,17 @@ public class RelicRetriever extends ComponentHardware {
     @Override
     public void runHardware() {
         setRobot.power(mArmLift,armLiftPower,"arm lift motor");
-        setRobot.position(ssArm,armPosition,"arm servo");
+        setRobot.power(mArm,armPower,"arm servo");
         setRobot.position(ssRelicGrabber,grabberPosition,"relic grabber servo");
     }
 
     @Override
     public void stopHardware() {
         armLiftPower    = 0;
-        armPosition     = ARM_IN;
+        armPower     = 0;
         grabberPosition = GRABBER_CLOSED;
         setRobot.power(mArmLift,armLiftPower,"arm lift motor");
-        setRobot.position(ssArm,armPosition,"arm servo");
+        setRobot.power(mArm,armPower,"arm servo");
         setRobot.position(ssRelicGrabber,grabberPosition,"relic grabber servo");
     }
 }

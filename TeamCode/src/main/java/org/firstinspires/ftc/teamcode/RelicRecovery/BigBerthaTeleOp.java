@@ -129,6 +129,7 @@ public class BigBerthaTeleOp extends OpMode {
             }
             robot.glyphGrabber.liftPower = 0;
             robot.relicRetriever.armLiftPower = 0;
+            robot.relicRetriever.armPower = 0;
         } else { // for gamepad 1 controls override
             TankDriveMethods tank = new TankDriveMethods();
             drivePower = tank.drive(gamepad1);
@@ -160,10 +161,18 @@ public class BigBerthaTeleOp extends OpMode {
                 robot.glyphGrabber.liftPower = 0;
             }
             // ----- arm override -----
-            if (gamepad1.right_bumper) {
+            /*if (gamepad1.right_bumper) {
                 robot.relicRetriever.armPosition += .001;
             } else if (gamepad1.left_bumper) {
                 robot.relicRetriever.armPosition -=.001;
+            }*/
+            if (gamepad1.right_bumper) {
+                robot.relicRetriever.armPower = 1;
+
+            } else if (gamepad1.left_bumper){
+                robot.relicRetriever.armPower = -1;
+            } else {
+                robot.relicRetriever.armPower = 0;
             }
             robot.relicRetriever.armLiftPower = gamepad1.right_trigger - gamepad1.left_trigger;
         }
@@ -232,7 +241,7 @@ public class BigBerthaTeleOp extends OpMode {
             }
         }
         // ---------------- Arm -----------------
-        if (gamepad2.right_bumper) {
+        /*if (gamepad2.right_bumper) {
             robot.relicRetriever.armPosition += .0008;
         } else if (gamepad2.left_bumper) {
             robot.relicRetriever.armPosition -=.0008;
@@ -241,7 +250,15 @@ public class BigBerthaTeleOp extends OpMode {
             } else if (robot.relicRetriever.armPosition > 1) {
                     robot.relicRetriever.armPosition = 1;
             }
-        }
+        }*/
+        if (gamepad2.right_bumper) {
+            robot.relicRetriever.armPower = 1;
+
+        } else if (gamepad2.left_bumper){
+            robot.relicRetriever.armPower = -1;
+        } /*else {
+            robot.relicRetriever.armPower = 0;
+        }*/
         robot.relicRetriever.armLiftPower += gamepad2.right_trigger - gamepad2.left_trigger;
     }
 

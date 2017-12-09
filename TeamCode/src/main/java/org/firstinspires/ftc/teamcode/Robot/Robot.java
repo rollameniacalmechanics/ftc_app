@@ -26,7 +26,7 @@ public abstract class Robot implements FTCRobot {
     /**
      * default drive train
      */
-    public FourMotor driveTrain;
+    public StandardDrive driveTrain;
     // ------------------------ Constructor -------------------------
     /**
      * Initializes map and setRobot objects
@@ -38,7 +38,7 @@ public abstract class Robot implements FTCRobot {
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         map = new Map(hardwareMap,telemetry);
         setRobot = new SetRobot(telemetry);
-        driveTrain = new FourMotor(map,setRobot);
+        driveTrain = new StandardDrive(map,setRobot);
     }
     // -------------------------- Mapping ---------------------------
     /**

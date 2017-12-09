@@ -11,15 +11,7 @@ import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
  * This drive train is used for robots with a four motor drive train
  */
 public class FourMotor extends StandardDrive {
-    // ---------------------- Hardware Devices ----------------------
-    /**
-     * back left motor
-     */
-    public DcMotor mBackLeft;
-    /**
-     * back right motor
-     */
-    public DcMotor mBackRight;
+
     // --------------------- Hardware Variables ---------------------
     /**
      * this variable is used to set power the back left motor
@@ -40,8 +32,6 @@ public class FourMotor extends StandardDrive {
         super(map,setRobot);
         this.map = map;
         this.setRobot = setRobot;
-        mBackLeft  = null;
-        mBackRight = null;
         backLeftPower  = 0;
         backRightPower = 0;
     }
@@ -52,8 +42,6 @@ public class FourMotor extends StandardDrive {
     @Override
     public void initHardware() {
         super.initHardware();
-        mBackLeft  = map.revMotor("bl");
-        mBackRight = map.motor("br");
     }
     // --------------------- Set Hardware Power ---------------------
     /**
@@ -61,14 +49,14 @@ public class FourMotor extends StandardDrive {
      */
     @Override
     public void runHardware() {
-        super.runHardware();
+        setRobot.power(mLeft,leftPower,"left motor");
+        setRobot.power(mRight,rightPower,"right motor");
         setRobot.power(mBackLeft,backLeftPower,"back left motor");
         setRobot.power(mBackRight,backRightPower,"back right motor");
     }
-    public void stopHardware(){
+    public void stopHardware() {
+        super.stopHardware();
         backLeftPower  = 0;
         backRightPower = 0;
-        setRobot.power(mBackLeft,backLeftPower,"back left motor");
-        setRobot.power(mBackRight,backRightPower,"back right motor");
     }
 }

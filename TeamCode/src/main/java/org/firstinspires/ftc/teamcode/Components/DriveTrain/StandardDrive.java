@@ -21,6 +21,14 @@ public class StandardDrive extends ComponentHardware {
      * right motor
      */
     public DcMotor mRight;
+    /**
+     * back left motor
+     */
+    public DcMotor mBackLeft;
+    /**
+     * back right motor
+     */
+    public DcMotor mBackRight;
     // --------------------- Hardware Variables ---------------------
     /**
      * this variable is used to set power the left motor
@@ -42,6 +50,8 @@ public class StandardDrive extends ComponentHardware {
         this.setRobot = setRobot;
         mLeft    = null;
         mRight   = null;
+        mBackLeft  = null;
+        mBackRight = null;
         leftPower  = 0;
         rightPower = 0;
     }
@@ -53,6 +63,8 @@ public class StandardDrive extends ComponentHardware {
     public void initHardware() {
         mLeft  = map.revMotor("l");
         mRight = map.motor("r");
+        mBackLeft  = map.revMotor("bl");
+        mBackRight = map.motor("br");
     }
     // --------------------- Set Hardware Power ---------------------
     /**
@@ -62,6 +74,8 @@ public class StandardDrive extends ComponentHardware {
     public void runHardware() {
         setRobot.power(mLeft,leftPower,"left motor");
         setRobot.power(mRight,rightPower,"right motor");
+        setRobot.power(mBackLeft,leftPower,"back left motor");
+        setRobot.power(mBackRight,rightPower,"back right motor");
     }
 
     @Override
@@ -70,5 +84,7 @@ public class StandardDrive extends ComponentHardware {
         rightPower = 0;
         setRobot.power(mLeft,leftPower,"left motor");
         setRobot.power(mRight,rightPower,"right motor");
+        setRobot.power(mBackLeft,leftPower,"back left motor");
+        setRobot.power(mBackRight,rightPower,"back right motor");
     }
 }
