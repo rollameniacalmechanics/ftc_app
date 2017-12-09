@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.Robot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.Components.DriveTrain.FourMotor;
 import org.firstinspires.ftc.teamcode.Components.DriveTrain.StandardDrive;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
 import org.firstinspires.ftc.teamcode.Utilities.SetRobot;
@@ -25,7 +26,7 @@ public abstract class Robot implements FTCRobot {
     /**
      * default drive train
      */
-    public StandardDrive driveTrain;
+    public FourMotor driveTrain;
     // ------------------------ Constructor -------------------------
     /**
      * Initializes map and setRobot objects
@@ -37,7 +38,7 @@ public abstract class Robot implements FTCRobot {
     public Robot(HardwareMap hardwareMap, Telemetry telemetry) {
         map = new Map(hardwareMap,telemetry);
         setRobot = new SetRobot(telemetry);
-        driveTrain = new StandardDrive(map,setRobot);
+        driveTrain = new FourMotor(map,setRobot);
     }
     // -------------------------- Mapping ---------------------------
     /**
