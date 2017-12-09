@@ -79,7 +79,7 @@ public class RelicRetriever extends ComponentHardware {
     public void initHardware() {
         mArmLift = map.motor("armLift");
         mArm = map.motor("arm");
-        ssRelicGrabber = map.servo("sGrabber", grabberPosition);
+        ssRelicGrabber = map.revServo("sGrabber", grabberPosition);
     }
     // --------------------- Set Hardware Power ---------------------
     /**
