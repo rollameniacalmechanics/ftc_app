@@ -67,7 +67,7 @@ public class GlyphGrabber extends ComponentHardware {
      */
     @Override
     public void initHardware() {
-        mLift  = map.motor("lift");
+        mLift  = map.revMotor("lift");
         crHand = map.revCrservo("crHand");
     }
     // --------------------- Set Hardware Power ---------------------
