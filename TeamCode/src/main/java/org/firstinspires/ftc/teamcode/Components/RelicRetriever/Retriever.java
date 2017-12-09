@@ -28,7 +28,7 @@ public class Retriever extends RelicRetrieverHardware {
     /**
      * Relic grabber servo
      */
-    public Servo ssRelicGrabber;
+    public DcMotor mRelicGrabber;
     // --------------------- Motor Values ---------------------------
     /**
      * The power for the armlifter
@@ -41,7 +41,7 @@ public class Retriever extends RelicRetrieverHardware {
     /**
      * the position for the relic grabber
      */
-    public double grabberPosition;
+    public double grabberPower;
 
     /**
      * Constructor
@@ -60,10 +60,10 @@ public class Retriever extends RelicRetrieverHardware {
         this.setRobot = setRobot;
         mArmLift       = null;
         ssArm          = null;
-        ssRelicGrabber = null;
+        mRelicGrabber = null;
         armLiftPower    = 0;
         armPosition     = ARM_IN;
-        grabberPosition = GRABBER_CLOSED;
+        grabberPower = 0;
     }
 
     @Override
@@ -77,9 +77,9 @@ public class Retriever extends RelicRetrieverHardware {
          */
         ssArm = map.revServo("sArm", armPosition);
         /**
-         * Hardware map for grabber position
+         * Hardware map for grabber power
          */
-        ssRelicGrabber = map.servo("sGrabber", grabberPosition);
+        mRelicGrabber = map.motor("mGrabber", grabberPower);
     }
 
     @Override
@@ -95,6 +95,6 @@ public class Retriever extends RelicRetrieverHardware {
         /**
          * Set power or position for relicgrabber
          */
-        setRobot.position(ssRelicGrabber,grabberPosition,"relic grabber servo");
+        setRobot.position(mRelicGrabber,grabberPower,"relic grabber servo");
     }
 }
