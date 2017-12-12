@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.GlyphGrabber;
@@ -46,6 +47,11 @@ public class BigBerthaAuto {
     SetRobot setRobot;
     UseIMU useIMU;
 
+    //VoltageSensor voltageSensor;
+
+    String jewelStatus = "waiting";
+    String handStauts = "closed";
+
     public BigBerthaAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
@@ -59,8 +65,12 @@ public class BigBerthaAuto {
     private boolean threeDone = false;
     private boolean fourDone = false;
 
-    public void initAuto(boolean ifFull) {
 
+    private States _state;
+
+    public void initAuto(boolean ifFull) {
+        //voltageSensor = hardwareMap.voltageSensor.get("voltage");
+        _state = States.READING_VALUES;
         Thread t = new Thread(new Runnable() {
             @Override
             public void run()
@@ -112,6 +122,8 @@ public class BigBerthaAuto {
             });
             v.start();
             w.start();
+
+            _state = States.TIMER;
         }
     }
 
@@ -136,7 +148,8 @@ public class BigBerthaAuto {
 
     enum States {
         TIMER,
-        READING_VALUES ,
+        WAIT_TO_READ,
+        READING_VALUES,
         HIT_JEWEL,
         WAIT_TO_MOVE,
         MOVE_OFF_PLATE,
@@ -150,15 +163,12 @@ public class BigBerthaAuto {
         STOP
     }
 
-    private States _state = States.TIMER;
     private ReadColor.Color jewelColor = ReadColor.Color.NEITHER;
 
     public void loop(final boolean ifFull, final boolean ifBlue) {
         robot.run();
         if (ifFull) {
             useIMU.run();
-        } else {
-            _state = States.READING_VALUES;
         }
         switch(_state) {
             case TIMER:
@@ -167,12 +177,19 @@ public class BigBerthaAuto {
                     public void run()
                     {
                     try {
-                        Thread.sleep(27000); // .1 second
+                        Thread.sleep(26000); // .1 second
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
+                    robot.driveTrain.mLeft.setPower(0);
+                    robot.driveTrain.mRight.setPower(0);
+                    robot.driveTrain.leftPower = 0;
+                    robot.driveTrain.rightPower = 0;
+                    _state = States.STOP;
                     robot.glyphGrabber.crHand.setPower(GlyphGrabber.HAND_OPEN);
                     robot.glyphGrabber.crHandPosition = GlyphGrabber.HAND_OPEN;
+                    //telemetry.addData("crHand", "open");
+                    handStauts = "open";
                     }
                 });
                 Thread b = new Thread(new Runnable() {
@@ -184,7 +201,13 @@ public class BigBerthaAuto {
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        _state = States.MOVE_OFF_PLATE;
+                        if (_state == States.READING_VALUES) {
+                            if (ifFull) {
+                                _state = States.MOVE_OFF_PLATE;
+                            }
+                        }
+                        //telemetry.addData("jewel", "skipped");
+                        jewelStatus = "skipped";
                     }
                 });
                 a.start();
@@ -197,14 +220,32 @@ public class BigBerthaAuto {
                     _state = States.HIT_JEWEL;
                 }
                 break;
+            case WAIT_TO_READ:
+                try {
+                    Thread.sleep(500); // .1 second
+                } catch (InterruptedException ex) {
+                    Thread.currentThread().interrupt();
+                }
+                _state = States.HIT_JEWEL;
+                break;
             case HIT_JEWEL:
                 jewelColor = readColor.getColorDetected();
-                if (jewelColor == ReadColor.Color.RED) {
-                    robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_LEFT;
-                } else if (jewelColor == ReadColor.Color.BLUE) {
-                    robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
+                if (ifBlue) {
+                    if (jewelColor == ReadColor.Color.RED) {
+                        robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
+                    } else if (jewelColor == ReadColor.Color.BLUE) {
+                        robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_LEFT;
+                    } else {
+                        telemetry.addData("Color", "neither, you messed up");
+                    }
                 } else {
-                    telemetry.addData("Color", "neither, you messed up");
+                    if (jewelColor == ReadColor.Color.RED) {
+                        robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_LEFT;
+                    } else if (jewelColor == ReadColor.Color.BLUE) {
+                        robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_RIGHT;
+                    } else {
+                        telemetry.addData("Color", "neither, you messed up");
+                    }
                 }
                 if (ifFull) {
                     _state = States.WAIT_TO_MOVE;
@@ -213,6 +254,7 @@ public class BigBerthaAuto {
                 }
                 break;
             case WAIT_TO_MOVE:
+                jewelStatus = "done";
                 try {
                     Thread.sleep(275); // .1 second
                 } catch (InterruptedException ex) {
@@ -229,7 +271,7 @@ public class BigBerthaAuto {
                     @Override
                     public void run()
                     {
-                        while (robot.driveTrain.mRight.getCurrentPosition() < 22*COUNTS_PER_INCH) {
+                        while (robot.driveTrain.mRight.getCurrentPosition() < 22.5*COUNTS_PER_INCH) {
                             robot.driveTrain.leftPower = 1;
                             robot.driveTrain.rightPower = 1;
                         }
@@ -251,15 +293,15 @@ public class BigBerthaAuto {
                             robot.driveTrain.leftPower = -.5;
                             robot.driveTrain.rightPower = .5;
                             while (useIMU.getHeading() < 105) {
-                                robot.driveTrain.leftPower = -.4;
-                                robot.driveTrain.rightPower = .4;
+                                robot.driveTrain.leftPower = -.3;
+                                robot.driveTrain.rightPower = .3;
                             }
                         } else {
                             robot.driveTrain.leftPower = .5;
                             robot.driveTrain.rightPower = -.5;
                             while (useIMU.getHeading() > -105) {
-                                robot.driveTrain.leftPower = -.4;
-                                robot.driveTrain.rightPower = .4;
+                                robot.driveTrain.leftPower = .3;
+                                robot.driveTrain.rightPower = -.3;
                             }
                         }
                         robot.driveTrain.mRight.setPower(0);
@@ -337,15 +379,15 @@ public class BigBerthaAuto {
                     public void run()
                     {
                         if (ifBlue) {
-                            robot.driveTrain.leftPower = -.75;
-                            robot.driveTrain.rightPower = .75;
+                            robot.driveTrain.leftPower = -.5;
+                            robot.driveTrain.rightPower = .5;
                             while (true) {
                                 if (useIMU.getHeading() > -170 && useIMU.getHeading() < -90)
                                     break;
                             }
                         } else {
-                            robot.driveTrain.leftPower = .75;
-                            robot.driveTrain.rightPower = -.75;
+                            robot.driveTrain.leftPower = .5;
+                            robot.driveTrain.rightPower = -.5;
                             while (true) {
                                 if (useIMU.getHeading() < 170 && useIMU.getHeading() > 90)
                                     break;
@@ -370,19 +412,25 @@ public class BigBerthaAuto {
                 _state = States.TO_BOX_AGAIN;
                 break;
             case TO_BOX_AGAIN:
-                robot.driveTrain.leftPower = .5;
-                robot.driveTrain.rightPower = .5;
-                if (robot.driveTrain.mRight.getCurrentPosition() > (12)*COUNTS_PER_INCH) {
+                robot.driveTrain.leftPower = .25
+                ;
+                robot.driveTrain.rightPower = .25;
+                if (robot.driveTrain.mRight.getCurrentPosition() > (20)*COUNTS_PER_INCH) {
                     _state = States.STOP;
                 }
                 break;
             case STOP:
-                telemetry.addData("------HEADING------", useIMU.getHeading());
                 robot.driveTrain.leftPower = 0;
                 robot.driveTrain.rightPower = 0;
             default:
                 telemetry.addData("Test", "Cry");
         }
+
+        /*if (voltageSensor.getVoltage() < 10.9) {
+            _state = States.STOP;
+        }
+
+        telemetry.addData("Voltage",voltageSensor.getVoltage());*/
 
         telemetry.addData("State",_state);
         telemetry.addData("blue",robot.jewelRejector.sColor.blue());
@@ -391,6 +439,8 @@ public class BigBerthaAuto {
         telemetry.addData("left encoder",robot.driveTrain.mLeft.getCurrentPosition());
         telemetry.addData("arm lift encoder",robot.relicRetriever.mArmLift.getCurrentPosition());
         telemetry.addData("lift encoder",robot.glyphGrabber.mLift.getCurrentPosition());
+        telemetry.addData("jewel", jewelStatus);
+        telemetry.addData("hand", handStauts);
     }
 
     public void stop() {

@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 /**
  * Created by spmce on 12/1/2017.
  */
-@Autonomous(name = "Relic Recovery Auto Simple", group = "Auto")
-public class AutoSimple extends OpMode {
+@Autonomous(name = "Relic Recovery Auto Simple Red", group = "Auto")
+public class AutoSimpleRed extends OpMode {
     BigBerthaAuto bigBerthaAuto;
     @Override
     public void init() {
