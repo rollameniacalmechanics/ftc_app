@@ -181,10 +181,11 @@ public class BigBerthaAuto {
                     } catch (InterruptedException ex) {
                         Thread.currentThread().interrupt();
                     }
-                    robot.driveTrain.mLeft.setPower(0);
+                    robot.driveTrain.stopHardware();
+                    /*robot.driveTrain.mLeft.setPower(0);
                     robot.driveTrain.mRight.setPower(0);
                     robot.driveTrain.leftPower = 0;
-                    robot.driveTrain.rightPower = 0;
+                    robot.driveTrain.rightPower = 0;*/
                     _state = States.STOP;
                     robot.glyphGrabber.crHand.setPower(GlyphGrabber.HAND_OPEN);
                     robot.glyphGrabber.crHandPosition = GlyphGrabber.HAND_OPEN;
@@ -275,10 +276,11 @@ public class BigBerthaAuto {
                             robot.driveTrain.leftPower = 1;
                             robot.driveTrain.rightPower = 1;
                         }
-                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.stopHardware();
+                        /*robot.driveTrain.mRight.setPower(0);
                         robot.driveTrain.mLeft.setPower(0);
                         robot.driveTrain.leftPower = 0;
-                        robot.driveTrain.rightPower = 0;
+                        robot.driveTrain.rightPower = 0;*/
                         _state = States.ROTATE;
                     }
                 });
@@ -304,10 +306,11 @@ public class BigBerthaAuto {
                                 robot.driveTrain.rightPower = -.3;
                             }
                         }
-                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.stopHardware();
+                        /*robot.driveTrain.mRight.setPower(0);
                         robot.driveTrain.mLeft.setPower(0);
                         robot.driveTrain.leftPower = 0;
-                        robot.driveTrain.rightPower = 0;
+                        robot.driveTrain.rightPower = 0;*/
                         _state = States.RESET_ENCODERS;
                     }
                 });
@@ -356,10 +359,11 @@ public class BigBerthaAuto {
                             if (robot.driveTrain.mRight.getCurrentPosition() > (49)*COUNTS_PER_INCH)
                                 break;
                         }
-                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.stopHardware();
+                        /*robot.driveTrain.mRight.setPower(0);
                         robot.driveTrain.mLeft.setPower(0);
                         robot.driveTrain.leftPower = 0;
-                        robot.driveTrain.rightPower = 0;
+                        robot.driveTrain.rightPower = 0;*/
                         _state = States.ROTATE_TO_BOX;
                     }
                 });
@@ -393,10 +397,11 @@ public class BigBerthaAuto {
                                     break;
                             }
                         }
-                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.stopHardware();
+                        /*robot.driveTrain.mRight.setPower(0);
                         robot.driveTrain.mLeft.setPower(0);
                         robot.driveTrain.leftPower = 0;
-                        robot.driveTrain.rightPower = 0;
+                        robot.driveTrain.rightPower = 0;*/
                         _state = States.RESET_ENCODERS_AGAIN;
                     }
                 });
@@ -420,8 +425,9 @@ public class BigBerthaAuto {
                 }
                 break;
             case STOP:
-                robot.driveTrain.leftPower = 0;
-                robot.driveTrain.rightPower = 0;
+                robot.driveTrain.stopHardware();
+                /*robot.driveTrain.leftPower = 0;
+                robot.driveTrain.rightPower = 0;*/
             default:
                 telemetry.addData("Test", "Cry");
         }
