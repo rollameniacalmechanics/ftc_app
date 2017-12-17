@@ -187,8 +187,8 @@ public class BigBerthaTeleOp extends OpMode {
             rightStick1 = true;
         }
         if (slowDrive) {
-            robot.driveTrain.rightPower /= 2;
-            robot.driveTrain.leftPower /= 2;
+            robot.driveTrain.rightPower *= .75;
+            robot.driveTrain.leftPower *= .75;
         }
         // --------------- Jewels ---------------
         if (gamepad1.x) {

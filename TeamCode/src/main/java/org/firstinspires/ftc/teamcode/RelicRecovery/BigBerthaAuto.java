@@ -294,14 +294,14 @@ public class BigBerthaAuto {
                         if (ifBlue) {
                             robot.driveTrain.leftPower = -.5;
                             robot.driveTrain.rightPower = .5;
-                            while (useIMU.getHeading() < 105) {
+                            while (useIMU.getHeading() < 95) {
                                 robot.driveTrain.leftPower = -.3;
                                 robot.driveTrain.rightPower = .3;
                             }
                         } else {
                             robot.driveTrain.leftPower = .5;
                             robot.driveTrain.rightPower = -.5;
-                            while (useIMU.getHeading() > -105) {
+                            while (useIMU.getHeading() > -95) {
                                 robot.driveTrain.leftPower = .3;
                                 robot.driveTrain.rightPower = -.3;
                             }
