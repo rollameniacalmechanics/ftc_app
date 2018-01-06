@@ -27,7 +27,7 @@ public class AutoRed extends OpMode {
 
     @Override
     public void loop() {
-        bigBerthaAuto.loop(true,false);
+        bigBerthaAuto.loop(true,false, false);
     }
 
     @Override

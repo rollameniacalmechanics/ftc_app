@@ -27,7 +27,7 @@ public class AutoBlue extends OpMode {
 
     @Override
     public void loop() {
-        bigBerthaAuto.loop(true,true);
+        bigBerthaAuto.loop(true,true,false);
     }
 
     @Override

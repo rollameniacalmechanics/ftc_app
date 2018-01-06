@@ -21,7 +21,7 @@ public class AutoSimpleRed extends OpMode {
     }
     @Override
     public void loop() {
-        bigBerthaAuto.loop(false,false);
+        bigBerthaAuto.loop(false,false,false );
     }
 
 }
