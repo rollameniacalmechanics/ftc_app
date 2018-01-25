@@ -129,7 +129,7 @@ public class BigBerthaAuto {
 
     public void init_loop(boolean ifFull) {
         String status;
-        if (!ifFull || threeDone && fourDone) {
+        if (!ifFull || (threeDone && fourDone)) {
             if (oneDone && twoDone) {
                 status = "all done";
             } else {
@@ -376,7 +376,7 @@ public class BigBerthaAuto {
                             robot.driveTrain.leftPower = leftpower;
                             robot.driveTrain.rightPower = rightpower;
                         }
-                        double distance;
+                        //double distance;
                         if(ifSide){
                             distance = 35;
                         }else {
