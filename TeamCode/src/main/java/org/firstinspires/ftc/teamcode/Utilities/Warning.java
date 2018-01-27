@@ -11,16 +11,20 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Warning {
 
-    HardwareMap hardwareMap;
+    //HardwareMap hardwareMap;
     Telemetry telemetry;
     String message;
 
-    public Warning(HardwareMap hardwareMap, Telemetry telemetry) {
-        this.hardwareMap = hardwareMap;
+    public Warning(Telemetry telemetry) {
+        //this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
     }
 
     public void addWarning(String message) {
         this.message += message;
+    }
+
+    public void displayMessage() {
+        telemetry.addData("Warning: ", message);
     }
 }

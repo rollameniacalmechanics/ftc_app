@@ -17,7 +17,7 @@ public class AutoSimpleRed extends OpMode {
     @Override
     public void init_loop() {
         super.init_loop();
-        bigBerthaAuto.init_loop(true);
+        bigBerthaAuto.init_loop(false);
     }
     @Override
     public void loop() {
