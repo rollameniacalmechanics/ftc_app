@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.Utilities;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -52,6 +55,24 @@ public class Map {
             telemetry.addData("sColor-distance", "well I tried");
         }
         return colorSensor;
+    }
+    public Range rangeSensor(String name) {
+        Range rangeSensor = null;
+        try {
+            rangeSensor = hardwareMap.get(Range.class,name);
+        } catch (Exception e) {
+            telemetry.addData("sRange", "well I tried");
+        }
+        return rangeSensor;
+    }
+    public DistanceSensor distanceSensor(String name) {
+        DistanceSensor distance = null;
+        try {
+            distance = hardwareMap.get(DistanceSensor.class,name);
+        } catch (Exception e) {
+            telemetry.addData("sRange", "well I tried");
+        }
+        return distance;
     }
 
     // ---------------------- Private Methods -----------------------

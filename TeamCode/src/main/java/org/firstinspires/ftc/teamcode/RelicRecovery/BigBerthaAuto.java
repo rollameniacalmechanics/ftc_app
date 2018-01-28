@@ -49,7 +49,7 @@ public class BigBerthaAuto {
     SetRobot setRobot;
     UseIMU useIMU;
 
-    ModernRoboticsI2cRangeSensor range = null;
+    //ModernRoboticsI2cRangeSensor range = null;
 
     //VoltageSensor voltageSensor;
 
@@ -80,8 +80,9 @@ public class BigBerthaAuto {
             public void run()
             {
                 robot = new BigBertha(hardwareMap,telemetry);
-                range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "r");
+                //range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "r");
                 robot.init();
+                //range = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "r");
                 robot.glyphGrabber.crHand.setPower(-1);
 
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -144,7 +145,10 @@ public class BigBerthaAuto {
             status = "not done?";
         }
         telemetry.addData("status", status);
-        telemetry.addData("range", range.getDistance(DistanceUnit.INCH));
+        //if (robot.jewelRejector.sRange != null)
+                //telemetry.addData("distance", robot.jewelRejector.sRange.getDistance(DistanceUnit.INCH));
+        /*if (range != null)
+            telemetry.addData("range", range.getDistance(DistanceUnit.INCH));*/
     }
 
     public void start() {
@@ -197,8 +201,9 @@ public class BigBerthaAuto {
                         }
                         robot.driveTrain.mRight.setPower(-.6);
                         robot.driveTrain.mLeft.setPower(-.6);
+                        _state = States.WAIT;
                         try {
-                            Thread.sleep(700); // .1 second
+                            Thread.sleep(900); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
@@ -211,7 +216,7 @@ public class BigBerthaAuto {
                     public void run()
                     {
                         try {
-                            Thread.sleep(1000); // .1 second
+                            Thread.sleep(3000); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
@@ -303,18 +308,18 @@ public class BigBerthaAuto {
                     {
                         double distance;
                         if(ifSide){
-                            distance = 40;
+                            distance = 24.4;
                         } else {
-                            distance = 42.5;
+                            distance = 22.5;
                         }
-                        while (range.getDistance(DistanceUnit.INCH)  < distance) {
+                        /*while (range.getDistance(DistanceUnit.INCH)  < distance) {
                             robot.driveTrain.leftPower = .25;
                             robot.driveTrain.rightPower = .25;
-                        }
-                        /*while (robot.driveTrain.mRight.getCurrentPosition() < distance*COUNTS_PER_INCH) {
+                        }*/
+                        while (robot.driveTrain.mRight.getCurrentPosition() < distance*COUNTS_PER_INCH) {
                             robot.driveTrain.leftPower = .23;
                             robot.driveTrain.rightPower = .23;
-                        }*/
+                        }
                         robot.driveTrain.stopHardware();
 
                         _state = States.ROTATE;
@@ -329,7 +334,7 @@ public class BigBerthaAuto {
                     public void run() {
                         double angle;
                         if(ifSide){
-                            angle = 100;
+                            angle = 96;
                         }else{
                             angle = 95;
                         }
@@ -391,7 +396,7 @@ public class BigBerthaAuto {
                     {
                         double distance;
                         if(ifSide){
-                            distance = 27;
+                            distance = 24;
                         }else{
                             distance = 16;
                         }
@@ -426,7 +431,7 @@ public class BigBerthaAuto {
                         }
                         //double distance;
                         if(ifSide){
-                            distance = 27;
+                            distance = 24;
                         }else {
                             distance = 49;
                         }
@@ -453,14 +458,14 @@ public class BigBerthaAuto {
                                 robot.driveTrain.leftPower = .22;
                                 robot.driveTrain.rightPower = -.22;
                                 while (true) {
-                                    if (useIMU.getHeading() <= 105)
+                                    if (useIMU.getHeading() <= 103)
                                         break;
                                 }
                             } else {
                                 robot.driveTrain.leftPower = -.22;
                                 robot.driveTrain.rightPower = .22;
                                 while (true) {
-                                    if (useIMU.getHeading() >= -105)
+                                    if (useIMU.getHeading() >= -103)
                                         break;
                                 }
                             }
@@ -498,11 +503,11 @@ public class BigBerthaAuto {
                 _state = States.TO_BOX_AGAIN;
                 break;
             case TO_BOX_AGAIN:
-                robot.driveTrain.leftPower = .25;
-                robot.driveTrain.rightPower = .25;
+                robot.driveTrain.leftPower = .2;
+                robot.driveTrain.rightPower = .2;
                 double distance;
                 if (ifSide) {
-                    distance = 12;
+                    distance = 5;
                 } else {
                     distance = 20;
                 }
@@ -520,7 +525,8 @@ public class BigBerthaAuto {
 
 
         telemetry.addData("State",_state);
-        telemetry.addData("in", "%.2f in", range.getDistance(DistanceUnit.INCH));
+        //telemetry.addData("in", "%.2f in", range.getDistance(DistanceUnit.INCH));
+        telemetry.addData("distance", robot.jewelRejector.sRange.getDistance(DistanceUnit.INCH));
         telemetry.addData("blue",robot.jewelRejector.sColor.blue());
         telemetry.addData("red",robot.jewelRejector.sColor.red());
         telemetry.addData("right encoder",robot.driveTrain.mRight.getCurrentPosition());

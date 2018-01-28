@@ -20,6 +20,7 @@ public class TestColors extends OpMode {
     @Override
     public void init() {
         robot = new BigBertha(hardwareMap,telemetry);
+        robot.init();
         readColor = new ReadColor(robot.jewelRejector.sColor);
         setRobot = new SetRobot(telemetry);
     }
