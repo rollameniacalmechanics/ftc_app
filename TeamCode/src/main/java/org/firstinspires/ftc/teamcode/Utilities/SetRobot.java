@@ -20,7 +20,7 @@ public class SetRobot {
     // ----------------------- Public Methods -----------------------
     // ---------------- DcMotors ----------------
     public void power(DcMotor motor, double power, String name) {
-        telemetry.addData(name + " power", power);
+        //telemetry.addData(name + " power", power);
         try {
             motor.setPower(power);
         } catch (Exception opModeException) {
@@ -29,7 +29,7 @@ public class SetRobot {
     }
     // ------------ Standard Servos -------------
     public void position(Servo servo, double position, String name) {
-        telemetry.addData(name + " power", position);
+        //telemetry.addData(name + " power", position);
         try {
             servo.setPosition(position);
         } catch (Exception opModeException) {
@@ -38,7 +38,7 @@ public class SetRobot {
     }
     // ------- Continuous Rotation Servos -------
     public void position(CRServo crServo, double power, String name) {
-        telemetry.addData(name + " power", power);
+        //telemetry.addData(name + " power", power);
         try {
             crServo.setPower(power);
         } catch (Exception opModeException) {

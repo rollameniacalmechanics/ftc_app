@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode.Components.RelicRecovery;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.hardware.ColorSensor;
+import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.Components.ComponentInterface.ComponentHardware;
 import org.firstinspires.ftc.teamcode.Utilities.Map;
@@ -25,11 +28,11 @@ public class JewelRejector extends ComponentHardware {
     /**
      * value of when the jewel rejector rotator is centered
      */
-    public static final double JEWEL_ROTATOR_CENTER = .425;
+    public static final double JEWEL_ROTATOR_CENTER = .475;
     /**
      * value of when the jewel rejector rotator is set right
      */
-    public static final double JEWEL_ROTATOR_RIGHT = .175;
+    public static final double JEWEL_ROTATOR_RIGHT = .275;
     /**
      * value of when the jewel rejector rotator is set left
      */
@@ -49,6 +52,8 @@ public class JewelRejector extends ComponentHardware {
      * color sensor used to detect color of jewels
      */
     public ColorSensor sColor;
+    //public ModernRoboticsI2cRangeSensor sRange;
+    public DistanceSensor sRange;
     // --------------------- Hardware Variables ---------------------
     /**
      * this variable is used to set power the jewel rejector servo
@@ -72,6 +77,7 @@ public class JewelRejector extends ComponentHardware {
         ssBallPusher = null;
         ssBallRotator = null;
         sColor = null;
+        sRange = null;
         jewelRejectorPosition = JEWEL_REJECTOR_UP;
         jewelRotatorPosition = JEWEL_ROTATOR_CENTER;
     }
@@ -84,6 +90,7 @@ public class JewelRejector extends ComponentHardware {
         ssBallPusher  = map.revServo("sBall", jewelRejectorPosition);
         ssBallRotator = map.servo("sBallRotator", jewelRotatorPosition);
         sColor = map.colorSensor("cd");
+        sRange = map.distanceSensor("range");
     }
     // --------------------- Set Hardware Power ---------------------
     /**
