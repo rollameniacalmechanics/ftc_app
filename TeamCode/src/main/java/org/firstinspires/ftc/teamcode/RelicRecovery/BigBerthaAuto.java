@@ -126,7 +126,7 @@ public class BigBerthaAuto {
                     fourDone = true;
                 }
             });
-            v.start();
+            //v.start();
             w.start();
 
             _state = States.TIMER;
@@ -135,7 +135,7 @@ public class BigBerthaAuto {
 
     public void init_loop(boolean ifFull) {
         String status;
-        if (!ifFull || (threeDone && fourDone)) {
+        if (!ifFull || (/*threeDone && */ fourDone)) {
             if (oneDone && twoDone) {
                 status = "all done";
             } else {
@@ -152,7 +152,7 @@ public class BigBerthaAuto {
     }
 
     public void start() {
-        useVuforia.start();
+        //useVuforia.start();
         useIMU.start();
     }
 
@@ -187,23 +187,23 @@ public class BigBerthaAuto {
                     public void run()
                     {
                         try {
-                            Thread.sleep(22000); // .1 second
+                            Thread.sleep(21000); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
                         robot.glyphGrabber.crHand.setPower(GlyphGrabber.HAND_OPEN);
                         robot.glyphGrabber.crHandPosition = GlyphGrabber.HAND_OPEN;
                         handStauts = "open";
+                        _state = States.WAIT;
                         try {
                             Thread.sleep(1100); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        robot.driveTrain.mRight.setPower(-.6);
-                        robot.driveTrain.mLeft.setPower(-.6);
-                        _state = States.WAIT;
+                        robot.driveTrain.mRight.setPower(-1);
+                        robot.driveTrain.mLeft.setPower(-1);
                         try {
-                            Thread.sleep(900); // .1 second
+                            Thread.sleep(2400); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
@@ -251,7 +251,7 @@ public class BigBerthaAuto {
                 break;
             case READING_VALUES:
                 robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
-                if(useVuforia.run() && readColor.readColor()) {
+                if(/*useVuforia.run() && */ readColor.readColor()) {
                     _state = States.HIT_JEWEL;
                 }
                 break;
@@ -308,18 +308,18 @@ public class BigBerthaAuto {
                     {
                         double distance;
                         if(ifSide){
-                            distance = 24.4;
+                            distance = 35.5;
                         } else {
-                            distance = 22.5;
+                            distance = 32.5;
                         }
-                        /*while (range.getDistance(DistanceUnit.INCH)  < distance) {
+                        while (robot.jewelRejector.sRange.getDistance(DistanceUnit.INCH)  <= distance) {
                             robot.driveTrain.leftPower = .25;
                             robot.driveTrain.rightPower = .25;
-                        }*/
-                        while (robot.driveTrain.mRight.getCurrentPosition() < distance*COUNTS_PER_INCH) {
+                        }
+                        /*while (robot.driveTrain.mRight.getCurrentPosition() < distance*COUNTS_PER_INCH) {
                             robot.driveTrain.leftPower = .23;
                             robot.driveTrain.rightPower = .23;
-                        }
+                        }*/
                         robot.driveTrain.stopHardware();
 
                         _state = States.ROTATE;
@@ -334,7 +334,7 @@ public class BigBerthaAuto {
                     public void run() {
                         double angle;
                         if(ifSide){
-                            angle = 96;
+                            angle = 94;
                         }else{
                             angle = 95;
                         }
@@ -342,15 +342,15 @@ public class BigBerthaAuto {
                             robot.driveTrain.leftPower = -.25;
                             robot.driveTrain.rightPower = .25;
                             while (useIMU.getHeading() < angle) {
-                                robot.driveTrain.leftPower = -.25;
-                                robot.driveTrain.rightPower = .25;
+                                robot.driveTrain.leftPower = -.33;
+                                robot.driveTrain.rightPower = .363;
                             }
                         } else {
                             robot.driveTrain.leftPower = .25;
                             robot.driveTrain.rightPower = -.25;
                             while (useIMU.getHeading() > -angle) {
-                                robot.driveTrain.leftPower = .25;
-                                robot.driveTrain.rightPower = -.25;
+                                robot.driveTrain.leftPower = .33;
+                                robot.driveTrain.rightPower = -.33;
                             }
                         }
                         robot.driveTrain.stopHardware();
@@ -458,14 +458,14 @@ public class BigBerthaAuto {
                                 robot.driveTrain.leftPower = .22;
                                 robot.driveTrain.rightPower = -.22;
                                 while (true) {
-                                    if (useIMU.getHeading() <= 103)
+                                    if (useIMU.getHeading() <= 101)
                                         break;
                                 }
                             } else {
                                 robot.driveTrain.leftPower = -.22;
                                 robot.driveTrain.rightPower = .22;
                                 while (true) {
-                                    if (useIMU.getHeading() >= -103)
+                                    if (useIMU.getHeading() >= -101)
                                         break;
                                 }
                             }
@@ -507,7 +507,7 @@ public class BigBerthaAuto {
                 robot.driveTrain.rightPower = .2;
                 double distance;
                 if (ifSide) {
-                    distance = 5;
+                    distance = 9;
                 } else {
                     distance = 20;
                 }

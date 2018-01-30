@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.RelicRecovery;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.GlyphGrabber;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.JewelRejector;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.RelicRetriever;
@@ -267,10 +268,13 @@ public class BigBerthaTeleOp extends OpMode {
         driveMode();
         slowDrive();
         ifHold();
+        telemetry.addData("distance", robot.jewelRejector.sRange.getDistance(DistanceUnit.INCH));
+
     }
     private void ifDriveOverride() {
         telemetry.addData("If default drive", defaultDrive);
     }
+
     private void driveMode() {
         telemetry.addData("Drive Mode", driveMode);
     }

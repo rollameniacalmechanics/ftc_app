@@ -74,6 +74,15 @@ public class Map {
         }
         return distance;
     }
+    public ModernRoboticsI2cRangeSensor mrRangeSensor(String name) {
+        ModernRoboticsI2cRangeSensor distance = null;
+        try {
+            distance = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,name);
+        } catch (Exception e) {
+            telemetry.addData("sRange", "well I tried");
+        }
+        return distance;
+    }
 
     // ---------------------- Private Methods -----------------------
     // ---------------- DcMotors ----------------

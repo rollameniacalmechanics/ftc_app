@@ -52,8 +52,8 @@ public class JewelRejector extends ComponentHardware {
      * color sensor used to detect color of jewels
      */
     public ColorSensor sColor;
-    //public ModernRoboticsI2cRangeSensor sRange;
-    public DistanceSensor sRange;
+    public ModernRoboticsI2cRangeSensor sRange;
+    //public DistanceSensor sRange;
     // --------------------- Hardware Variables ---------------------
     /**
      * this variable is used to set power the jewel rejector servo
@@ -90,7 +90,7 @@ public class JewelRejector extends ComponentHardware {
         ssBallPusher  = map.revServo("sBall", jewelRejectorPosition);
         ssBallRotator = map.servo("sBallRotator", jewelRotatorPosition);
         sColor = map.colorSensor("cd");
-        sRange = map.distanceSensor("range");
+        sRange = map.mrRangeSensor("range");
     }
     // --------------------- Set Hardware Power ---------------------
     /**
