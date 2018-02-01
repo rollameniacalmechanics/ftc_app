@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.VoltageSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.RelicRecoveryVuMark;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.GlyphGrabber;
 import org.firstinspires.ftc.teamcode.Components.RelicRecovery.JewelRejector;
 import org.firstinspires.ftc.teamcode.Utilities.ReadColor;
@@ -55,6 +56,7 @@ public class BigBerthaAuto {
 
     String jewelStatus = "waiting";
     String handStauts = "closed";
+    String vuMark = "something";
 
     public BigBerthaAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -86,10 +88,10 @@ public class BigBerthaAuto {
                 robot.glyphGrabber.crHand.setPower(-1);
 
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                //robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                //robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
                 readColor = new ReadColor(robot.jewelRejector.sColor);
                 telemetry.addData("Robot Init","done");
@@ -159,6 +161,7 @@ public class BigBerthaAuto {
     enum States {
         TIMER,
         WAIT_TO_READ,
+        PICTURE,
         READING_VALUES,
         HIT_JEWEL,
         WAIT_TO_MOVE,
@@ -218,15 +221,15 @@ public class BigBerthaAuto {
                     public void run()
                     {
                         try {
-                            Thread.sleep(3000); // .1 second
+                            Thread.sleep(5000); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
-                        robot.driveTrain.leftPower = .16;
-                        robot.driveTrain.rightPower = .16;
+                        robot.driveTrain.leftPower = .26;
+                        robot.driveTrain.rightPower = .26;
                         //robot.jewelRejector.jewelRejectorPosition = .95;
                         try {
-                            Thread.sleep(890); // .1 second
+                            Thread.sleep(450); // .1 second
                         } catch (InterruptedException ex) {
                             Thread.currentThread().interrupt();
                         }
@@ -249,21 +252,40 @@ public class BigBerthaAuto {
                 });
                 a.start();
                 b.start();
-                _state = States.READING_VALUES;
-                break;
-            case READING_VALUES:
-                robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
-                if(/*useVuforia.run() && */ readColor.readColor()) {
-                    _state = States.WAIT_TO_READ;
-                }
+                _state = States.WAIT_TO_READ;
                 break;
             case WAIT_TO_READ:
-                try {
+                Thread f = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Thread.sleep(600); // .1 second
+                        } catch (InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+                        _state = States.READING_VALUES;
+                    }
+                });
+                robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
+                f.run();
+                _state = States.WAIT;
+                /*try {
                     Thread.sleep(600); // .1 second
                 } catch (InterruptedException ex) {
                     Thread.currentThread().interrupt();
                 }
-                _state = States.HIT_JEWEL;
+                _state = States.READING_VALUES;*/
+                //_state = States.READING_VALUES;
+                break;
+            case PICTURE:
+                /*if (useVuforia.run()) {
+                    _state = States.READING_VALUES;
+                }*/
+                break;
+            case READING_VALUES:
+                if(/*useVuforia.run() && */ readColor.readColor()) {
+                    _state = States.HIT_JEWEL;
+                }
                 break;
             case HIT_JEWEL:
                 jewelColor = readColor.getColorDetected();
@@ -302,8 +324,9 @@ public class BigBerthaAuto {
             case MOVE_OFF_PLATE:
                 robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_UP;
                 robot.jewelRejector.jewelRotatorPosition = JewelRejector.JEWEL_ROTATOR_CENTER;
-                robot.driveTrain.leftPower = .25;
-                robot.driveTrain.rightPower = .25;
+
+                robot.driveTrain.rightPower = .28;
+                robot.driveTrain.leftPower = .28;
                 Thread s = new Thread(new Runnable() {
                     @Override
                     public void run()
@@ -315,8 +338,9 @@ public class BigBerthaAuto {
                             distance = 32.5;
                         }
                         while (robot.jewelRejector.sRange.getDistance(DistanceUnit.INCH)  <= distance) {
-                            robot.driveTrain.leftPower = .25;
-                            robot.driveTrain.rightPower = .25;
+
+                            robot.driveTrain.rightPower = .28;
+                            robot.driveTrain.leftPower = .28;
                         }
                         /*while (robot.driveTrain.mRight.getCurrentPosition() < distance*COUNTS_PER_INCH) {
                             robot.driveTrain.leftPower = .23;
@@ -336,7 +360,16 @@ public class BigBerthaAuto {
                     public void run() {
                         double angle;
                         if(ifSide){
-                            angle = 109;
+                            if (useVuforia.getVuMark() == RelicRecoveryVuMark.RIGHT) {
+                                angle = 104;
+                                vuMark = "RIGHT";
+                            } else if (useVuforia.getVuMark() == RelicRecoveryVuMark.LEFT) {
+                                angle = 114;
+                                vuMark = "LEFT";
+                            } else {
+                                angle = 109;
+                                vuMark = "CENTER MAYBE";
+                            }
                         }else{
                             angle = 95;
                         }
@@ -378,10 +411,10 @@ public class BigBerthaAuto {
                 break;
             case RESET_ENCODERS:
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                //robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                //robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 _state = States.TO_BOX;
                 break;
             case TO_BOX:
@@ -413,7 +446,7 @@ public class BigBerthaAuto {
                             distance = 16;
                         }
                         while (true) {
-                            if (robot.driveTrain.mRight.getCurrentPosition() > (distance)*COUNTS_PER_INCH)
+                            if (robot.driveTrain.mLeft.getCurrentPosition() > (distance)*COUNTS_PER_INCH)
                                 break;
                         }
                         double rightpower;
@@ -448,7 +481,7 @@ public class BigBerthaAuto {
                             distance = 49;
                         }
                         while (true) {
-                            if (robot.driveTrain.mRight.getCurrentPosition() > (distance)*COUNTS_PER_INCH)
+                            if (robot.driveTrain.mLeft.getCurrentPosition() > (distance)*COUNTS_PER_INCH)
                                 break;
                         }
                         robot.driveTrain.stopHardware();
@@ -508,10 +541,10 @@ public class BigBerthaAuto {
                 break;
             case RESET_ENCODERS_AGAIN:
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                //robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                //`robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 _state = States.TO_BOX_AGAIN;
                 break;
             case TO_BOX_AGAIN:
@@ -523,12 +556,13 @@ public class BigBerthaAuto {
                 } else {
                     distance = 20;
                 }
-                if (robot.driveTrain.mRight.getCurrentPosition() > (distance)*COUNTS_PER_INCH) {
+                if (robot.driveTrain.mLeft.getCurrentPosition() > (distance)*COUNTS_PER_INCH) {
                     _state = States.STOP;
                 }
                 break;
             case STOP:
                 robot.driveTrain.stopHardware();
+                break;
 
             default:
                 telemetry.addData("Test", "Cry");
@@ -537,6 +571,7 @@ public class BigBerthaAuto {
 
 
         telemetry.addData("State",_state);
+        telemetry.addData("VuMark",vuMark);
         //telemetry.addData("in", "%.2f in", range.getDistance(DistanceUnit.INCH));
         telemetry.addData("distance", robot.jewelRejector.sRange.getDistance(DistanceUnit.INCH));
         telemetry.addData("blue",robot.jewelRejector.sColor.blue());

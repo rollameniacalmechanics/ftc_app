@@ -252,11 +252,14 @@ public class BigBerthaTeleOp extends OpMode {
                     robot.relicRetriever.armPosition = 1;
             }
         }*/
+        double relicPower = 1;
+        if (gamepad2.x) {
+            relicPower = .5;
+        }
         if (gamepad2.right_bumper) {
-            robot.relicRetriever.armPower = 1;
-
+            robot.relicRetriever.armPower = relicPower;
         } else if (gamepad2.left_bumper){
-            robot.relicRetriever.armPower = -1;
+            robot.relicRetriever.armPower = -relicPower;
         } /*else {
             robot.relicRetriever.armPower = 0;
         }*/

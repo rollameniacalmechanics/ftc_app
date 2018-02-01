@@ -34,6 +34,8 @@ public class UseVuforia {
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
+    RelicRecoveryVuMark myvuMark;
+
     public UseVuforia(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
         this.telemetry = telemetry;
@@ -91,6 +93,7 @@ public class UseVuforia {
          * UNKNOWN will be returned by {@link RelicRecoveryVuMark#from(VuforiaTrackable)}.
          */
         RelicRecoveryVuMark vuMark = RelicRecoveryVuMark.from(relicTemplate);
+        myvuMark = vuMark;
         if (vuMark != RelicRecoveryVuMark.UNKNOWN) {
 
             /**
@@ -142,8 +145,8 @@ public class UseVuforia {
         return (transformationMatrix != null) ? transformationMatrix.formatAsTransform() : "null";
     }
 
-    public VuforiaLocalizer getVuforia() {
-        return vuforia;
+    public RelicRecoveryVuMark getVuMark() {
+        return myvuMark;
     }
 
 
