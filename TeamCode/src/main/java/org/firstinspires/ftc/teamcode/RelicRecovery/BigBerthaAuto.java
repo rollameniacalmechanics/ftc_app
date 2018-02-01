@@ -161,7 +161,7 @@ public class BigBerthaAuto {
     enum States {
         TIMER,
         WAIT_TO_READ,
-        PICTURE,
+        READ_PICTURE,
         READING_VALUES,
         HIT_JEWEL,
         WAIT_TO_MOVE,
@@ -268,7 +268,7 @@ public class BigBerthaAuto {
                 });
                 robot.jewelRejector.jewelRejectorPosition = JewelRejector.JEWEL_REJECTOR_DOWN;
                 f.run();
-                _state = States.WAIT;
+                _state = States.READ_PICTURE;
                 /*try {
                     Thread.sleep(600); // .1 second
                 } catch (InterruptedException ex) {
@@ -277,10 +277,10 @@ public class BigBerthaAuto {
                 _state = States.READING_VALUES;*/
                 //_state = States.READING_VALUES;
                 break;
-            case PICTURE:
-                /*if (useVuforia.run()) {
-                    _state = States.READING_VALUES;
-                }*/
+            case READ_PICTURE:
+                if (useVuforia.run()) {
+                    _state = States.WAIT;
+                }
                 break;
             case READING_VALUES:
                 if(/*useVuforia.run() && */ readColor.readColor()) {
