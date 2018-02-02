@@ -22,7 +22,6 @@ public class BigBerthaAuto {
     HardwareMap hardwareMap;
     Telemetry telemetry;
 
-    // do thread to continue after 5 seconds and open grabber after 28 seconds
     private BigBertha robot;
 
     /**
@@ -472,10 +471,10 @@ public class BigBerthaAuto {
                 break;
             case RESET_ENCODERS_AGAIN:
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                //robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
                 robot.driveTrain.mLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                //`robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                robot.driveTrain.mRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 _state = States.TO_BOX_AGAIN;
                 break;
             case TO_BOX_AGAIN:
