@@ -37,7 +37,7 @@ public class StandardDrive extends ComponentHardware {
     /**
      * this variable is used to set power the right motor
      */
-    public double rightPower;
+    public double  rightPower;
     // ------------------------ Constructor -------------------------
     /**
      * Constructs a two motor drive train
