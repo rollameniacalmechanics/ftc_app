@@ -39,9 +39,10 @@ public class BigBerthaAuto {
     private final static double CIRCUMFERENCE_OF_WHEEL = DIAMETER_OF_WHEEL*Math.PI;
     private final static double COUNTS_PER_INCH = COUNTS_PER_REVOLUTION/RATIO/CIRCUMFERENCE_OF_WHEEL;
 
-    private final static double MAX_SPEED = 1;
-    private final static double TURN_SPEED = .5;
+    private final static double MAX_SPEED = 0.65;
+    private final static double TURN_SPEED = .25 ;
     private final static double MIN_SPEED = .28;
+    private final static double MIN_TURN_SPEED = .1;
 
     UseVuforia useVuforia;
     ReadColor readColor;
@@ -51,6 +52,7 @@ public class BigBerthaAuto {
     String jewelStatus = "waiting";
     String handStauts = "closed";
     String vuMark = "something";
+    String myMessage = "";
 
     public BigBerthaAuto(HardwareMap hardwareMap, Telemetry telemetry) {
         this.hardwareMap = hardwareMap;
@@ -301,7 +303,7 @@ public class BigBerthaAuto {
                     public void run() {
                         double distance;
                         if(ifSide){
-                            distance = 33.5;
+                            distance = 35.5;
                         } else {
                             distance = 32.5;
                         }
@@ -329,7 +331,7 @@ public class BigBerthaAuto {
                                 angle = 114;
                                 vuMark = "LEFT";
                             } else {
-                                angle = 85;
+                                angle = 90;
                                 vuMark = "CENTER MAYBE";
                             }
                         } else {
@@ -341,26 +343,38 @@ public class BigBerthaAuto {
                             robot.driveTrain.leftPower = leftPower;
                             robot.driveTrain.rightPower = rightPower;
                             while (useIMU.getHeading() < angle) {
-                                if(useIMU.getHeading() >= angle - 30) {
-                                    leftPower = -MIN_SPEED/3;
-                                    rightPower = MIN_SPEED/3;
+                                myMessage = "ehhhhhhhhhhhhhhh";
+                                if(useIMU.getHeading() >= (angle - 30)) {
+                                    leftPower = -MIN_TURN_SPEED;
+                                    rightPower = MIN_TURN_SPEED;
+                                    myMessage = "slowwwwwwwwwwwwwww";
                                 }
                                 robot.driveTrain.leftPower = leftPower;
                                 robot.driveTrain.rightPower = rightPower;
+                                robot.driveTrain.mLeft.setPower(leftPower);
+                                robot.driveTrain.mRight.setPower(rightPower);
+                                robot.driveTrain.mBackLeft.setPower(leftPower);
+                                robot.driveTrain.mBackRight.setPower(rightPower);
                             }
                         } else {
                             robot.driveTrain.leftPower = rightPower;
                             robot.driveTrain.rightPower = leftPower;
                             while (useIMU.getHeading() > -angle) {
-                                if(useIMU.getHeading() <= -angle + 30) {
-                                    leftPower = MIN_SPEED/3;
-                                    rightPower = MIN_SPEED/3;
+                                if(useIMU.getHeading() <= (-angle + 30)) {
+                                    leftPower = MIN_TURN_SPEED;
+                                    rightPower = MIN_TURN_SPEED;
                                 }
                                 robot.driveTrain.leftPower = rightPower;
                                 robot.driveTrain.rightPower = leftPower;
                             }
                         }
                         robot.driveTrain.stopHardware();
+                        robot.driveTrain.leftPower = 0;
+                        robot.driveTrain.rightPower = 0;
+                        robot.driveTrain.mLeft.setPower(0);
+                        robot.driveTrain.mRight.setPower(0);
+                        robot.driveTrain.mBackLeft.setPower(0);
+                        robot.driveTrain.mBackRight.setPower(0);
                         _state = States.RESET_ENCODERS;
                     }
                 });
@@ -368,6 +382,7 @@ public class BigBerthaAuto {
                 _state = States.WAIT;
                 break;
             case WAIT:
+                telemetry.addData("Message",myMessage);
                 telemetry.addData("Im waiting", "waiting");
                 break;
             case RESET_ENCODERS:
@@ -408,16 +423,20 @@ public class BigBerthaAuto {
                             robot.driveTrain.rightPower = rightPower;
                         }
                         if(ifSide){
-                            distance = 15;
+                            distance = 12;
                         } else {
                             distance = 49;
                         }
+
                         while (true) {
                             if (robot.driveTrain.mLeft.getCurrentPosition() >= (distance)*COUNTS_PER_INCH)
                                 break;
                         }
                         robot.driveTrain.stopHardware();
-
+                        robot.driveTrain.leftPower = 0;
+                        robot.driveTrain.rightPower = 0;
+                        robot.driveTrain.mLeft.setPower(0);
+                        robot.driveTrain.mRight.setPower(0);
                         _state = States.STOP;
                     }
                 });

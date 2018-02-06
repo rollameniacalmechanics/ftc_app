@@ -14,7 +14,7 @@ public class ReadColor {
     ColorSensor colorSensor;
 
     private static final int SENSOR_COMPARE_RED = 25;
-    private static final int SENSOR_COMPARE_BLUE = 25;
+    private static final int SENSOR_COMPARE_BLUE = 20;
 
     private boolean ifColorFound = false;
 
